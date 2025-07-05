@@ -140,7 +140,7 @@ function SearchResultCard({ result }: { result: SearchResult }) {
             {hasLinks && (
               <div className="border-t border-hacker-border pt-4">
                 <h4 className="hacker-title text-sm mb-3">
-                  DOCUMENTATION_LINKS ({links.length})
+                  Documentation Links ({links.length})
                 </h4>
                 <div className="grid gap-2">
                   {links.map((link, index) => (
@@ -188,7 +188,7 @@ function SearchResultCard({ result }: { result: SearchResult }) {
             {hasLinks && (
               <div className="border-t border-hacker-border pt-3">
                 <div className="mb-2">
-                  <span className="hacker-title text-xs">QUICK_LINKS:</span>
+                  <span className="hacker-title text-xs">Links:</span>
                 </div>
                 <div className="grid gap-1">
                   {links.slice(0, 3).map((link, index) => (
@@ -217,7 +217,7 @@ function SearchResultCard({ result }: { result: SearchResult }) {
         {/* Similarity score */}
         {result.similarity && (
           <div className="mt-4 pt-3 border-t border-hacker-border text-xs font-mono text-hacker-text-darker">
-            SIMILARITY_SCORE: {(result.similarity * 100).toFixed(1)}%
+            Similarity: {(result.similarity * 100).toFixed(1)}%
           </div>
         )}
       </div>
@@ -230,10 +230,10 @@ export function SearchResults({ results, isLoading }: SearchResultsProps) {
     return (
       <div className="text-center py-8">
         <div className="text-hacker-green font-mono text-sm animate-pulse">
-          [SCANNING_NEURAL_NETWORKS...]
+          Searching...
         </div>
         <div className="text-hacker-text-dim font-mono text-xs mt-2">
-          Processing query through AI knowledge matrix...
+          Please wait while we find the most relevant resources.
         </div>
       </div>
     )
@@ -243,10 +243,10 @@ export function SearchResults({ results, isLoading }: SearchResultsProps) {
     return (
       <div className="text-center py-8">
         <div className="text-hacker-red font-mono text-sm mb-2">
-          [NO_RESULTS_FOUND]
+          No results found
         </div>
         <div className="text-hacker-text-dim font-mono text-xs">
-          Try adjusting your search parameters or check system logs.
+          Try a different search query.
         </div>
       </div>
     )
@@ -255,7 +255,7 @@ export function SearchResults({ results, isLoading }: SearchResultsProps) {
   return (
     <div className="space-y-6">
       <div className="text-hacker-green font-mono text-sm mb-4 border-b border-hacker-border pb-2">
-        [QUERY_RESULTS: {results.length} MATCHES_FOUND]
+        Found {results.length} results
       </div>
       
       {results.map((result) => (

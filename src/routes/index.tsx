@@ -64,7 +64,7 @@ function Home() {
           {!hasSearched && !isLoading && (
             <div className="space-y-6">
               <div className="text-hacker-green font-mono text-sm mb-4 border-b border-hacker-border pb-2">
-                [TRENDING_RESOURCES: {trendingResources.length} NEURAL_PATTERNS_DETECTED]
+                Trending Resources ({trendingResources.length})
               </div>
               <div className="text-hacker-text-dim font-mono text-xs mb-6">
                 Displaying combination of newest resources and most reacted content from the AI knowledge matrix...
