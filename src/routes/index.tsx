@@ -31,20 +31,20 @@ function Home() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-hacker-bg">
+    <div className="min-h-screen bg-slate-900">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Terminal Header */}
+          {/* Header */}
           <div className="mb-8 text-center">
             <div className="inline-block">
-              <h1 className="text-4xl md:text-6xl font-hacker text-hacker-green mb-2 glitch-text animate-flicker" data-text="AI_HACKS">
-                AI_HACKS
+              <h1 className="text-4xl md:text-6xl font-bold text-emerald-400 mb-4">
+                AI Hacks
               </h1>
-              <div className="text-hacker-cyan font-mono text-sm md:text-base mb-4">
-                <span className="animate-pulse">&gt;</span> Performing vector similarity search across curated AI resources <span className="animate-pulse terminal-cursor"></span>
+              <div className="text-blue-400 font-mono text-sm md:text-base mb-4">
+                <span className="text-emerald-400">&gt;</span> Semantic search across curated AI resources
               </div>
-              <div className="text-hacker-text-dim font-mono text-xs mb-6">
-                [ACCESSING_KNOWLEDGE_MATRIX...] <span className="text-hacker-green">CONNECTED</span>
+              <div className="text-slate-400 font-mono text-xs mb-6">
+                Discover the most relevant AI tools, tutorials, and insights
               </div>
             </div>
           </div>
@@ -63,11 +63,11 @@ function Home() {
           {/* Trending Resources - shown when not searching */}
           {!hasSearched && !isLoading && (
             <div className="space-y-6">
-              <div className="text-hacker-green font-mono text-sm mb-4 border-b border-hacker-border pb-2">
+              <div className="text-emerald-400 font-mono text-sm mb-4 border-b border-slate-700 pb-2">
                 Trending Resources ({trendingResources.length})
               </div>
-              <div className="text-hacker-text-dim font-mono text-xs mb-6">
-                Displaying combination of newest resources and most reacted content from the AI knowledge matrix...
+              <div className="text-slate-400 font-sans text-sm mb-6">
+                Discover the newest and most popular AI resources from our curated collection
               </div>
               <SearchResults results={trendingResources} isLoading={false} />
             </div>

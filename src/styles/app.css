@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -11,15 +11,12 @@
   }
 
   * {
-    @apply border-hacker-border;
+    @apply border-slate-700;
   }
 
   html,
   body {
-    @apply bg-hacker-bg text-hacker-text font-mono;
-    background-image: 
-      radial-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
+    @apply bg-slate-900 text-slate-100 font-sans;
     min-height: 100vh;
   }
 
@@ -27,11 +24,11 @@
     outline: none !important;
   }
 
-  /* Terminal cursor effect */
+  /* Subtle terminal cursor effect */
   .terminal-cursor::after {
     content: '▋';
-    animation: blink 1s infinite;
-    color: #00ff41;
+    animation: blink 1.5s infinite;
+    color: #10b981;
   }
 
   @keyframes blink {
@@ -39,86 +36,43 @@
     51%, 100% { opacity: 0; }
   }
 
-  /* Glitch text effect */
-  .glitch-text {
-    position: relative;
-  }
-
-  .glitch-text::before,
-  .glitch-text::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .glitch-text::before {
-    animation: glitch-1 0.5s infinite;
-    color: #ff0040;
-    z-index: -1;
-  }
-
-  .glitch-text::after {
-    animation: glitch-2 0.5s infinite;
-    color: #00ffff;
-    z-index: -2;
-  }
-
-  @keyframes glitch-1 {
-    0%, 100% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); }
-    40% { transform: translate(-2px, -2px); }
-    60% { transform: translate(2px, 2px); }
-    80% { transform: translate(2px, -2px); }
-  }
-
-  @keyframes glitch-2 {
-    0%, 100% { transform: translate(0); }
-    20% { transform: translate(2px, -2px); }
-    40% { transform: translate(2px, 2px); }
-    60% { transform: translate(-2px, -2px); }
-    80% { transform: translate(-2px, 2px); }
-  }
-
-  /* Scrollbar styling */
+  /* Subtle scrollbar styling */
   ::-webkit-scrollbar {
     width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #1a1a1a;
+    background: #1e293b;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #00ff41;
+    background: #475569;
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #00cc33;
+    background: #64748b;
   }
 }
 
 @layer components {
   .hacker-button {
-    @apply bg-hacker-bg-secondary border border-hacker-green text-hacker-green px-4 py-2 font-mono text-sm uppercase tracking-wider transition-all duration-200 hover:bg-hacker-green hover:text-hacker-bg hover:shadow-lg;
+    @apply bg-slate-800 border border-emerald-500 text-emerald-400 px-4 py-2 font-mono text-sm tracking-wide transition-all duration-200 hover:bg-emerald-500 hover:text-slate-900 hover:shadow-lg rounded-md;
   }
 
   .hacker-input {
-    @apply bg-hacker-bg-secondary border border-hacker-border text-hacker-text px-4 py-2 font-mono focus:border-hacker-green focus:outline-none focus:ring-1 focus:ring-hacker-green transition-all duration-200;
+    @apply bg-slate-800 border border-slate-600 text-slate-100 px-4 py-2 font-mono focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all duration-200 rounded-md;
   }
 
   .hacker-card {
-    @apply bg-hacker-bg-secondary border border-hacker-border shadow-lg;
+    @apply bg-slate-800 border border-slate-700 shadow-lg rounded-lg;
   }
 
   .hacker-title {
-    @apply text-hacker-green font-mono font-bold uppercase tracking-wider;
+    @apply text-emerald-400 font-semibold tracking-wide;
   }
 
   .hacker-link {
-    @apply text-hacker-cyan hover:text-hacker-green transition-colors duration-200 font-mono;
+    @apply text-blue-400 hover:text-emerald-400 transition-colors duration-200;
   }
 }

@@ -5,44 +5,37 @@ export default {
     extend: {
       colors: {
         'hacker': {
-          'bg': '#0a0a0a',
-          'bg-secondary': '#1a1a1a',
-          'bg-tertiary': '#2a2a2a',
-          'green': '#00ff41',
-          'green-dark': '#00cc33',
-          'cyan': '#00ffff',
-          'cyan-dark': '#00cccc',
-          'red': '#ff0040',
-          'text': '#e0e0e0',
-          'text-dim': '#a0a0a0',
-          'text-darker': '#666666',
-          'border': '#333333',
+          'bg': '#0f172a',           // slate-900
+          'bg-secondary': '#1e293b', // slate-800
+          'bg-tertiary': '#334155',  // slate-700
+          'green': '#10b981',        // emerald-500
+          'green-dark': '#059669',   // emerald-600
+          'cyan': '#06b6d4',         // cyan-500
+          'cyan-dark': '#0891b2',    // cyan-600
+          'red': '#ef4444',          // red-500
+          'text': '#f1f5f9',         // slate-100
+          'text-dim': '#94a3b8',     // slate-400
+          'text-darker': '#64748b',  // slate-500
+          'border': '#475569',       // slate-600
         }
       },
       fontFamily: {
-        'mono': ['Fira Code', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'monospace'],
-        'hacker': ['Courier New', 'Monaco', 'monospace'],
+        'mono': ['JetBrains Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'monospace'],
+        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        'hacker': ['JetBrains Mono', 'Monaco', 'monospace'],
       },
       animation: {
-        'glitch': 'glitch 2s infinite',
-        'flicker': 'flicker 3s infinite',
-        'pulse-green': 'pulse-green 2s infinite',
+        'pulse-subtle': 'pulse-subtle 2s infinite',
+        'fade-in': 'fade-in 0.5s ease-in-out',
       },
       keyframes: {
-        glitch: {
-          '0%, 100%': { transform: 'translate(0)' },
-          '20%': { transform: 'translate(-2px, 2px)' },
-          '40%': { transform: 'translate(-2px, -2px)' },
-          '60%': { transform: 'translate(2px, 2px)' },
-          '80%': { transform: 'translate(2px, -2px)' },
-        },
-        flicker: {
+        'pulse-subtle': {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.8' },
         },
-        'pulse-green': {
-          '0%, 100%': { boxShadow: '0 0 5px #00ff41' },
-          '50%': { boxShadow: '0 0 20px #00ff41, 0 0 30px #00ff41' },
+        'fade-in': {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         }
       }
     }

@@ -10,9 +10,11 @@ export function Auth({
   afterSubmit?: React.ReactNode
 }) {
   return (
-    <div className="fixed inset-0 bg-white dark:bg-black flex items-start justify-center p-8">
-      <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-4">{actionText}</h1>
+    <div className="fixed inset-0 bg-slate-900 flex items-center justify-center p-8">
+      <div className="bg-slate-800 border border-slate-700 p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h1 className="text-2xl font-semibold text-emerald-400 mb-6 text-center">
+          {actionText}
+        </h1>
         <form
           onSubmit={(e) => {
             e.preventDefault()
@@ -21,35 +23,39 @@ export function Auth({
           className="space-y-4"
         >
           <div>
-            <label htmlFor="email" className="block text-xs">
+            <label htmlFor="email" className="block text-slate-300 text-sm mb-2">
               Username
             </label>
             <input
               type="email"
               name="email"
               id="email"
-              className="px-2 py-1 w-full rounded border border-gray-500/20 bg-white dark:bg-gray-800"
+              className="hacker-input w-full"
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-xs">
+            <label htmlFor="password" className="block text-slate-300 text-sm mb-2">
               Password
             </label>
             <input
               type="password"
               name="password"
               id="password"
-              className="px-2 py-1 w-full rounded border border-gray-500/20 bg-white dark:bg-gray-800"
+              className="hacker-input w-full"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-cyan-600 text-white rounded py-2 font-black uppercase"
+            className="hacker-button w-full py-3 mt-6 disabled:opacity-50"
             disabled={status === 'pending'}
           >
-            {status === 'pending' ? '...' : actionText}
+            {status === 'pending' ? 'Processing...' : actionText}
           </button>
-          {afterSubmit ? afterSubmit : null}
+          {afterSubmit ? (
+            <div className="mt-4">
+              {afterSubmit}
+            </div>
+          ) : null}
         </form>
       </div>
     </div>

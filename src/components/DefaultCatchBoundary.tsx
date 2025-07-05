@@ -18,67 +18,67 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
   console.error(error)
 
   return (
-    <div className="min-h-screen bg-hacker-bg flex items-center justify-center">
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
       <div className="max-w-2xl mx-auto text-center p-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-hacker text-hacker-red mb-4 glitch-text animate-flicker" data-text="SYSTEM_ERROR">
-            SYSTEM_ERROR
+          <h1 className="text-4xl font-bold text-red-500 mb-4">
+            Something went wrong
           </h1>
-          <div className="text-hacker-green font-mono text-sm mb-2">
-            [CRITICAL: EXECUTION_FAILED]
+          <div className="text-emerald-400 font-mono text-sm mb-2">
+            Application Error
           </div>
-          <div className="text-hacker-text-dim font-mono text-xs mb-6">
-            An unexpected error occurred in the neural network processing.
+          <div className="text-slate-400 font-sans text-sm mb-6">
+            An unexpected error occurred. Our team has been notified and is working on a fix.
           </div>
         </div>
         
         {/* Error Details */}
-        <div className="bg-hacker-bg-secondary border border-hacker-red p-4 mb-6 text-left">
-          <div className="text-hacker-red font-mono text-xs mb-2">
-            ERROR_LOG:
+        <div className="bg-slate-800 border border-red-500 p-4 mb-6 text-left rounded-md">
+          <div className="text-red-400 font-mono text-xs mb-2">
+            Error Details:
           </div>
-          <div className="text-hacker-text font-mono text-xs break-all">
+          <div className="text-slate-100 font-mono text-xs break-all">
             <ErrorComponent error={error} />
           </div>
         </div>
         
         <div className="space-y-4">
-          <div className="text-hacker-text-dim font-mono text-xs mb-4">
-            RECOVERY_OPTIONS:
+          <div className="text-slate-500 font-mono text-xs mb-4">
+            Recovery Options:
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
               onClick={() => {
                 router.invalidate()
               }}
-              className="hacker-button py-3 px-6 hover:animate-pulse-green"
+              className="hacker-button py-3 px-6"
             >
-              [RETRY_OPERATION]
+              Try Again
             </button>
             {isRoot ? (
               <Link
                 to="/"
-                className="hacker-button py-3 px-6 text-center hover:animate-pulse-green"
+                className="hacker-button py-3 px-6 text-center"
               >
-                [RESTART_TERMINAL]
+                Go Home
               </Link>
             ) : (
               <Link
                 to="/"
-                className="hacker-button py-3 px-6 text-center hover:animate-pulse-green"
+                className="hacker-button py-3 px-6 text-center"
                 onClick={(e) => {
                   e.preventDefault()
                   window.history.back()
                 }}
               >
-                [GO_BACK]
+                Go Back
               </Link>
             )}
           </div>
         </div>
         
-        <div className="mt-8 text-hacker-text-darker font-mono text-xs">
-          SYSTEM_STATUS: <span className="text-hacker-red">ERROR_STATE</span>
+        <div className="mt-8 text-slate-600 font-mono text-xs">
+          Status: <span className="text-red-400">Error</span>
         </div>
       </div>
     </div>

@@ -44,7 +44,7 @@ export function SearchInput({ onResults, onSearchStart }: SearchInputProps) {
     <div className="mb-8">
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1 relative">
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-hacker-green font-mono text-sm">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-emerald-400 font-mono text-sm">
             $
           </div>
           <input
@@ -52,22 +52,22 @@ export function SearchInput({ onResults, onSearchStart }: SearchInputProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Ask about AI agents, e.g., 'Best frameworks for building AI agents?'"
-            className="w-full hacker-input pl-8 pr-4 py-3 rounded-none border-2 placeholder-hacker-text-darker focus:animate-pulse-green"
+            className="w-full hacker-input pl-8 pr-4 py-3 placeholder-slate-500"
             disabled={searchMutation.status === 'pending'}
           />
         </div>
         <button
           type="submit"
           disabled={searchMutation.status === 'pending' || !query.trim()}
-          className="hacker-button py-3 px-6 rounded-none border-2 disabled:opacity-50 disabled:cursor-not-allowed hover:animate-pulse-green"
+          className="hacker-button py-3 px-6 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {searchMutation.status === 'pending' ? '[SEARCHING...]' : '[EXECUTE]'}
+          {searchMutation.status === 'pending' ? 'Searching...' : 'Search'}
         </button>
       </form>
       
       {searchMutation.error && (
-        <div className="mt-3 p-3 bg-hacker-bg-secondary border border-hacker-red text-hacker-red font-mono text-sm">
-          <span className="text-hacker-red">ERROR:</span> {searchMutation.error.message}
+        <div className="mt-3 p-3 bg-red-900/20 border border-red-500 text-red-400 font-mono text-sm rounded-md">
+          <span className="text-red-400 font-semibold">Error:</span> {searchMutation.error.message}
         </div>
       )}
     </div>
