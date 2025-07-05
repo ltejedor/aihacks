@@ -1,0 +1,1 @@
+import{j as o}from"./main-rW6vsDpn.js";import{L as t}from"./Login-UOJ7Avvr.js";import"./useMutation-aIMscbbI.js";import"./Auth-CMiHyCNA.js";const s=function(){return o.jsx(t,{})};export{s as component};

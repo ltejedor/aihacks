@@ -152,3 +152,46 @@ export const getTrendingResources = createServerFn({ method: 'GET' })
       return []
     }
   })
+
+export const getResourceById = createServerFn({ method: 'GET' })
+  .validator((data: string) => data)
+  .handler(async ({ data: resourceId }) => {
+    console.log('Fetching resource with ID:', resourceId)
+    
+    const supabase = getSupabaseServerClient()
+    
+    try {
+      // Query the database for a resource with the specific resource_id
+      const { data, error } = await supabase
+        .from('message_embeddings')
+        .select('id, content, metadata')
+        .eq('metadata->>resource_id', resourceId)
+        .single()
+
+      if (error) {
+        console.error('Error fetching resource:', error)
+        if (error.code === 'PGRST116') {
+          // No rows returned
+          return null
+        }
+        throw new Error('Failed to fetch resource')
+      }
+
+      if (!data) {
+        return null
+      }
+
+      // Process the metadata
+      const processedData = {
+        ...data,
+        metadata: typeof data.metadata === 'string' ? JSON.parse(data.metadata) : data.metadata
+      }
+
+      console.log('Resource found:', processedData)
+      return processedData as SearchResult
+      
+    } catch (error) {
+      console.error('Error in getResourceById:', error)
+      throw error
+    }
+  })

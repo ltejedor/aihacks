@@ -1,1 +1,0 @@
-import{j as o}from"./main-DJPDiisk.js";import{L as t}from"./Login-D_8h-2au.js";import"./useMutation-D21S_reQ.js";import"./Auth-Bnqxbwn4.js";const s=function(){return o.jsx(t,{})};export{s as component};

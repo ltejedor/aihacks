@@ -1,0 +1,1 @@
+import{e as s,j as t}from"./main-rW6vsDpn.js";const a=function(){const e=s.useLoaderData();return t.jsxs("div",{className:"space-y-2",children:[t.jsx("h4",{className:"text-xl font-bold underline",children:e.title}),t.jsx("div",{className:"text-sm",children:e.body})]})};export{a as component};
