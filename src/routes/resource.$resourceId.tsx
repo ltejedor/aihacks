@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { notFound } from '@tanstack/react-router'
 import { getResourceById } from '../utils/search'
+import { seo } from '../utils/seo'
 
 export const Route = createFileRoute('/resource/$resourceId')({
   loader: async ({ params }) => {
@@ -9,6 +10,29 @@ export const Route = createFileRoute('/resource/$resourceId')({
       throw notFound()
     }
     return { resource }
+  },
+  head: (ctx: any) => {
+    const { loaderData } = ctx
+    if (!loaderData?.resource) {
+      return {
+        meta: seo({
+          title: 'Resource not found',
+          description: 'The resource you are looking for could not be found.',
+        }),
+      }
+    }
+    
+    const { resource } = loaderData
+    const description = createResourceDescription(resource.content)
+    const keywords = resource.metadata.tags.join(', ')
+    
+    return {
+      meta: seo({
+        title: resource.metadata.title,
+        description,
+        keywords,
+      }),
+    }
   },
   component: ResourcePage,
   notFoundComponent: () => (
@@ -54,6 +78,31 @@ function formatContentWithLinks(content: string): React.ReactElement {
       })}
     </div>
   )
+}
+
+function createResourceDescription(content: string, maxLength: number = 160): string {
+  // Remove URLs and excessive whitespace from content for description
+  const cleanContent = content
+    .replace(/https?:\/\/[^\s\n]+/g, '') // Remove URLs
+    .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+    .trim()
+  
+  if (cleanContent.length <= maxLength) {
+    return cleanContent
+  }
+  
+  // Find the last complete sentence within the limit
+  const truncated = cleanContent.substring(0, maxLength)
+  const lastSentence = truncated.lastIndexOf('.')
+  const lastSpace = truncated.lastIndexOf(' ')
+  
+  if (lastSentence > maxLength * 0.6) {
+    return truncated.substring(0, lastSentence + 1)
+  } else if (lastSpace > maxLength * 0.8) {
+    return truncated.substring(0, lastSpace) + '...'
+  } else {
+    return truncated + '...'
+  }
 }
 
 function ResourcePage() {
