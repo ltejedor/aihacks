@@ -46,9 +46,8 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       ...seo({
-        title:
-          'TanStack Start | Type-Safe, Client-First, Full-Stack React Framework',
-        description: `TanStack Start is a type-safe, client-first, full-stack React framework. `,
+        title: 'AI HACKS > SEARCH_PROTOCOL',
+        description: `Terminal interface for AI resource discovery. Enter the matrix of knowledge.`,
       }),
     ],
     links: [
@@ -70,7 +69,7 @@ export const Route = createRootRoute({
         sizes: '16x16',
         href: '/favicon-16x16.png',
       },
-      { rel: 'manifest', href: '/site.webmanifest', color: '#fffff' },
+      { rel: 'manifest', href: '/site.webmanifest', color: '#00ff41' },
       { rel: 'icon', href: '/favicon.ico' },
     ],
   }),
@@ -94,44 +93,12 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { user } = Route.useRouteContext()
-
   return (
     <html>
       <head>
         <HeadContent />
       </head>
       <body>
-        <div className="p-2 flex gap-2 text-lg">
-          <Link
-            to="/"
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true }}
-          >
-            Home
-          </Link>{' '}
-          <Link
-            to="/posts"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            Posts
-          </Link>
-          <div className="ml-auto">
-            {user ? (
-              <>
-                <span className="mr-2">{user.email}</span>
-                <Link to="/logout">Logout</Link>
-              </>
-            ) : (
-              <Link to="/login">Login</Link>
-            )}
-          </div>
-        </div>
-        <hr />
         {children}
         <TanStackRouterDevtools position="bottom-right" />
         <Scripts />

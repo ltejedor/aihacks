@@ -1,0 +1,75 @@
+import React, { useState, useEffect } from 'react'
+import { useMutation } from '../hooks/useMutation'
+import { searchResources, SearchResult } from '../utils/search'
+
+interface SearchInputProps {
+  onResults: (results: SearchResult[]) => void
+  onSearchStart?: () => void
+}
+
+export function SearchInput({ onResults, onSearchStart }: SearchInputProps) {
+  const [query, setQuery] = useState('')
+  
+  const searchMutation = useMutation({
+    fn: searchResources,
+    onSuccess: ({ data }) => {
+      console.log('Search completed successfully:', data)
+      onResults(data)
+    }
+  })
+
+  // Notify parent when search status changes
+  useEffect(() => {
+    if (searchMutation.status === 'pending' && onSearchStart) {
+      onSearchStart()
+    }
+  }, [searchMutation.status, onSearchStart])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (query.trim()) {
+      console.log('Starting search for:', query)
+      searchMutation.mutate({ data: query })
+    }
+  }
+
+  // Log errors when they occur
+  React.useEffect(() => {
+    if (searchMutation.error) {
+      console.error('Search failed:', searchMutation.error)
+    }
+  }, [searchMutation.error])
+
+  return (
+    <div className="mb-8">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+        <div className="flex-1 relative">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-hacker-green font-mono text-sm">
+            $
+          </div>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="enter search parameters..."
+            className="w-full hacker-input pl-8 pr-4 py-3 rounded-none border-2 placeholder-hacker-text-darker focus:animate-pulse-green"
+            disabled={searchMutation.status === 'pending'}
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={searchMutation.status === 'pending' || !query.trim()}
+          className="hacker-button py-3 px-6 rounded-none border-2 disabled:opacity-50 disabled:cursor-not-allowed hover:animate-pulse-green"
+        >
+          {searchMutation.status === 'pending' ? '[SEARCHING...]' : '[EXECUTE]'}
+        </button>
+      </form>
+      
+      {searchMutation.error && (
+        <div className="mt-3 p-3 bg-hacker-bg-secondary border border-hacker-red text-hacker-red font-mono text-sm">
+          <span className="text-hacker-red">ERROR:</span> {searchMutation.error.message}
+        </div>
+      )}
+    </div>
+  )
+}

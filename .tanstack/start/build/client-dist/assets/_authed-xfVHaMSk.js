@@ -1,0 +1,1 @@
+import{j as t}from"./main-DJPDiisk.js";import{L as r}from"./Login-D_8h-2au.js";import"./useMutation-D21S_reQ.js";import"./Auth-Bnqxbwn4.js";const p=({error:o})=>{if(o.message==="Not authenticated")return t.jsx(r,{});throw o};export{p as errorComponent};

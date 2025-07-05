@@ -1,22 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
-    color-scheme: light dark;
+    color-scheme: dark;
   }
 
   * {
-    @apply border-gray-200 dark:border-gray-800;
+    @apply border-hacker-border;
   }
 
   html,
   body {
-    @apply text-gray-900 bg-gray-50 dark:bg-gray-950 dark:text-gray-200;
+    @apply bg-hacker-bg text-hacker-text font-mono;
+    background-image: 
+      radial-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    min-height: 100vh;
   }
 
   .using-mouse * {
     outline: none !important;
+  }
+
+  /* Terminal cursor effect */
+  .terminal-cursor::after {
+    content: '▋';
+    animation: blink 1s infinite;
+    color: #00ff41;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Glitch text effect */
+  .glitch-text {
+    position: relative;
+  }
+
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .glitch-text::before {
+    animation: glitch-1 0.5s infinite;
+    color: #ff0040;
+    z-index: -1;
+  }
+
+  .glitch-text::after {
+    animation: glitch-2 0.5s infinite;
+    color: #00ffff;
+    z-index: -2;
+  }
+
+  @keyframes glitch-1 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+  }
+
+  @keyframes glitch-2 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(2px, -2px); }
+    40% { transform: translate(2px, 2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(-2px, 2px); }
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #00ff41;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00cc33;
+  }
+}
+
+@layer components {
+  .hacker-button {
+    @apply bg-hacker-bg-secondary border border-hacker-green text-hacker-green px-4 py-2 font-mono text-sm uppercase tracking-wider transition-all duration-200 hover:bg-hacker-green hover:text-hacker-bg hover:shadow-lg;
+  }
+
+  .hacker-input {
+    @apply bg-hacker-bg-secondary border border-hacker-border text-hacker-text px-4 py-2 font-mono focus:border-hacker-green focus:outline-none focus:ring-1 focus:ring-hacker-green transition-all duration-200;
+  }
+
+  .hacker-card {
+    @apply bg-hacker-bg-secondary border border-hacker-border shadow-lg;
+  }
+
+  .hacker-title {
+    @apply text-hacker-green font-mono font-bold uppercase tracking-wider;
+  }
+
+  .hacker-link {
+    @apply text-hacker-cyan hover:text-hacker-green transition-colors duration-200 font-mono;
   }
 }
