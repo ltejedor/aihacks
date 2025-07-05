@@ -2,13 +2,18 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState, useCallback } from 'react'
 import { SearchInput } from '../components/SearchInput'
 import { SearchResults } from '../components/SearchResults'
-import { SearchResult } from '../utils/search'
+import { SearchResult, getTrendingResources } from '../utils/search'
 
 export const Route = createFileRoute('/')({
   component: Home,
+  loader: async () => {
+    const trendingResources = await getTrendingResources()
+    return { trendingResources }
+  }
 })
 
 function Home() {
+  const { trendingResources } = Route.useLoaderData()
   const [results, setResults] = useState<SearchResult[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [hasSearched, setHasSearched] = useState(false)
@@ -50,16 +55,21 @@ function Home() {
             onSearchStart={handleSearchStart}
           />
           
-          {/* Results */}
+          {/* Search Results */}
           {(hasSearched || isLoading) && (
             <SearchResults results={results} isLoading={isLoading} />
           )}
 
-          {/* Footer */}
+          {/* Trending Resources - shown when not searching */}
           {!hasSearched && !isLoading && (
-            <div className="mt-12 text-center text-hacker-text-dim font-mono text-xs">
-              <div className="mb-2">SYSTEM_STATUS: <span className="text-hacker-green">ONLINE</span></div>
-              <div>QUERY_BUFFER: <span className="text-hacker-cyan">READY</span></div>
+            <div className="space-y-6">
+              <div className="text-hacker-green font-mono text-sm mb-4 border-b border-hacker-border pb-2">
+                [TRENDING_RESOURCES: {trendingResources.length} NEURAL_PATTERNS_DETECTED]
+              </div>
+              <div className="text-hacker-text-dim font-mono text-xs mb-6">
+                Displaying combination of newest resources and most reacted content from the AI knowledge matrix...
+              </div>
+              <SearchResults results={trendingResources} isLoading={false} />
             </div>
           )}
         </div>
