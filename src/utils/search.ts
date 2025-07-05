@@ -39,11 +39,29 @@ export const searchResources = createServerFn({ method: 'POST' })
       return []
     }
 
+    const supabase = getSupabaseServerClient()
+
+    // Save the search query to the searches table
+    try {
+      const { error: saveError } = await supabase
+        .from('searches')
+        .insert({ content: query })
+      
+      if (saveError) {
+        console.error('Error saving search query:', saveError)
+        // Don't throw here - we still want to return search results even if saving fails
+      } else {
+        console.log('Search query saved successfully:', query)
+      }
+    } catch (err) {
+      console.error('Exception saving search query:', err)
+      // Continue with search even if saving fails
+    }
+
     // Generate embedding for the search query
     const queryEmbedding = await generateEmbedding(query)
     
     // Search for similar documents using Supabase RPC
-    const supabase = getSupabaseServerClient()
     const { data, error } = await supabase.rpc('match_documents', {
       query_embedding: queryEmbedding,
       match_threshold: 0.01,

@@ -51,7 +51,7 @@ export function SearchInput({ onResults, onSearchStart }: SearchInputProps) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="enter search parameters..."
+            placeholder="Ask about AI agents, e.g., 'Best frameworks for building AI agents?'"
             className="w-full hacker-input pl-8 pr-4 py-3 rounded-none border-2 placeholder-hacker-text-darker focus:animate-pulse-green"
             disabled={searchMutation.status === 'pending'}
           />

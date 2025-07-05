@@ -41,7 +41,7 @@ function Home() {
                 AI_HACKS
               </h1>
               <div className="text-hacker-cyan font-mono text-sm md:text-base mb-4">
-                <span className="animate-pulse">&gt;</span> NEURAL_SEARCH_PROTOCOL_v2.1 <span className="animate-pulse terminal-cursor"></span>
+                <span className="animate-pulse">&gt;</span> Performing vector similarity search across curated AI resources <span className="animate-pulse terminal-cursor"></span>
               </div>
               <div className="text-hacker-text-dim font-mono text-xs mb-6">
                 [ACCESSING_KNOWLEDGE_MATRIX...] <span className="text-hacker-green">CONNECTED</span>

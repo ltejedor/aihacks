@@ -46,7 +46,10 @@ function SearchResultCard({ result }: { result: SearchResult }) {
   const isLongContent = result.content.length > 500
   
   const generateShareableLink = (resourceId: string) => {
-    return `${window.location.origin}/resource/${resourceId}`
+    if (typeof window !== 'undefined') {
+      return `${window.location.origin}/resource/${resourceId}`
+    }
+    return `/resource/${resourceId}`
   }
   
   const copyToClipboard = async (text: string) => {
