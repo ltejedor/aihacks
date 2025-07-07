@@ -19,9 +19,9 @@ AI communities on WhatsApp are goldmines of practical advice, tool recommendatio
 This project consists of three main components that work together to create a complete resource discovery system:
 
 ```
-WhatsApp Group → Data Collection → AI Processing → Web Interface
-     ↓               ↓               ↓            ↓
-  [whatsapp]    →  [pipeline]    →  [app]   →  Users
+Data Collection → AI Processing → Web Interface
+     ↓               ↓               ↓            
+  [whatsapp]    →  [pipeline]    →  [app]   
 ```
 
 ### 📱 `/app` - Frontend Web Application
@@ -112,14 +112,14 @@ Built on the powerful `whatsapp-web.js` library, this component handles the extr
    npm run dev
    ```
 
-3. **Explore the pipeline** (see how AI processing works)
+3. **Explore the pipeline** 
    ```bash
    cd pipeline
    pip install -r requirements.txt
    # Check out the example data and scripts
    ```
 
-4. **Run WhatsApp extraction** (requires WhatsApp Web access)
+4. **Run WhatsApp extraction** 
    ```bash
    cd whatsapp
    npm install
