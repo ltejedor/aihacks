@@ -1,8 +1,6 @@
 import { useRouter } from '@tanstack/react-router'
-import { useServerFn } from '@tanstack/react-start'
 import { useMutation } from '../hooks/useMutation'
 import { loginFn } from '../routes/_authed'
-import { signupFn } from '../routes/signup'
 import { Auth } from './Auth'
 
 export function Login() {
@@ -19,9 +17,7 @@ export function Login() {
     },
   })
 
-  const signupMutation = useMutation({
-    fn: useServerFn(signupFn),
-  })
+
 
   return (
     <Auth
@@ -44,23 +40,15 @@ export function Login() {
             {loginMutation.data.error &&
             loginMutation.data.message === 'Invalid login credentials' ? (
               <div>
+                <p className="text-slate-400 text-sm">
+                  Use phone authentication instead
+                </p>
                 <button
                   className="text-blue-500"
-                  onClick={(e) => {
-                    const formData = new FormData(
-                      (e.target as HTMLButtonElement).form!,
-                    )
-
-                    signupMutation.mutate({
-                      data: {
-                        email: formData.get('email') as string,
-                        password: formData.get('password') as string,
-                      },
-                    })
-                  }}
+                  onClick={() => router.navigate({ to: '/phone-login' })}
                   type="button"
                 >
-                  Sign up instead?
+                  Try phone login
                 </button>
               </div>
             ) : null}
