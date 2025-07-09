@@ -1,9 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { notFound } from '@tanstack/react-router'
 import { getResourceById } from '../utils/search'
 import { seo } from '../utils/seo'
 
 export const Route = createFileRoute('/resource/$resourceId')({
+  beforeLoad: ({ context }) => {
+    if (!context.user) {
+      throw redirect({
+        to: '/phone-login',
+      })
+    }
+  },
   loader: async ({ params }) => {
     const resource = await getResourceById({ data: params.resourceId })
     if (!resource) {

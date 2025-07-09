@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as PhoneLoginRouteImport } from './routes/phone-login'
 import { Route as LogoutRouteImport } from './routes/logout'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthedRouteImport } from './routes/_authed'
@@ -28,6 +29,11 @@ const SignupRoute = SignupRouteImport.update({
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhoneLoginRoute = PhoneLoginRouteImport.update({
+  id: '/phone-login',
+  path: '/phone-login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LogoutRoute = LogoutRouteImport.update({
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
+  '/phone-login': typeof PhoneLoginRoute
   '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/posts': typeof AuthedPostsRouteWithChildren
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
+  '/phone-login': typeof PhoneLoginRoute
   '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/resource/$resourceId': typeof ResourceResourceIdRoute
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/_authed': typeof AuthedRouteWithChildren
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
+  '/phone-login': typeof PhoneLoginRoute
   '/search': typeof SearchRoute
   '/signup': typeof SignupRoute
   '/_authed/posts': typeof AuthedPostsRouteWithChildren
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/logout'
+    | '/phone-login'
     | '/search'
     | '/signup'
     | '/posts'
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/logout'
+    | '/phone-login'
     | '/search'
     | '/signup'
     | '/resource/$resourceId'
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/_authed'
     | '/login'
     | '/logout'
+    | '/phone-login'
     | '/search'
     | '/signup'
     | '/_authed/posts'
@@ -145,6 +157,7 @@ export interface RootRouteChildren {
   AuthedRoute: typeof AuthedRouteWithChildren
   LoginRoute: typeof LoginRoute
   LogoutRoute: typeof LogoutRoute
+  PhoneLoginRoute: typeof PhoneLoginRoute
   SearchRoute: typeof SearchRoute
   SignupRoute: typeof SignupRoute
   ResourceResourceIdRoute: typeof ResourceResourceIdRoute
@@ -164,6 +177,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/phone-login': {
+      id: '/phone-login'
+      path: '/phone-login'
+      fullPath: '/phone-login'
+      preLoaderRoute: typeof PhoneLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/logout': {
@@ -255,6 +275,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthedRoute: AuthedRouteWithChildren,
   LoginRoute: LoginRoute,
   LogoutRoute: LogoutRoute,
+  PhoneLoginRoute: PhoneLoginRoute,
   SearchRoute: SearchRoute,
   SignupRoute: SignupRoute,
   ResourceResourceIdRoute: ResourceResourceIdRoute,

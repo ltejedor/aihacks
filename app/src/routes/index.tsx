@@ -1,10 +1,17 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { useState, useCallback } from 'react'
 import { SearchInput } from '../components/SearchInput'
 import { SearchResults } from '../components/SearchResults'
 import { SearchResult, getTrendingResources } from '../utils/search'
 
 export const Route = createFileRoute('/')({
+  beforeLoad: ({ context }) => {
+    if (!context.user) {
+      throw redirect({
+        to: '/phone-login',
+      })
+    }
+  },
   component: Home,
   loader: async () => {
     const trendingResources = await getTrendingResources()

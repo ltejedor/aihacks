@@ -137,6 +137,58 @@ The app includes authentication pages:
 
 Protected routes are under the `/_authed` path and require authentication.
 
+## Phone Authentication System
+
+The application currently uses a streamlined phone-based authentication system designed to provide quick access to the AI resource search while maintaining user engagement tracking.
+
+### Current Implementation (Faux-Auth)
+
+**How it works:**
+1. Users visit `/phone-login` and enter their phone number
+2. The system creates an anonymous Supabase user session
+3. The phone number is saved to a `phone_numbers_temp` table for logging purposes
+4. Users gain immediate access to the search functionality
+
+**Database Setup:**
+```sql
+-- Create table for phone number logging
+CREATE TABLE phone_numbers_temp (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  phone_num TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+```
+
+**Key Components:**
+- `PhoneAuth.tsx`: Branded phone authentication component with WhatsApp community integration
+- `phone-login.tsx`: Server function handling anonymous auth + phone logging
+- `__root.tsx`: Updated user context to support both anonymous and authenticated users
+- Route protection: Authenticated users are redirected away from `/phone-login`
+
+**Benefits of Current System:**
+- **Zero friction**: Users can access the search immediately without waiting for SMS
+- **Community focus**: Emphasizes the connection to the AI Hacks WhatsApp community
+- **Analytics**: Tracks user engagement and phone numbers for community building
+- **Progressive enhancement**: Easy to upgrade to real verification later
+- **Robust error handling**: Phone logging failures don't prevent authentication success
+
+### Planned Upgrade: Real Phone Verification
+
+**Future Implementation:**
+The same user interface will be enhanced with actual phone number verification using Supabase's built-in OTP (One-Time Password) system:
+
+1. **OTP Generation**: `supabase.auth.signInWithOtp({ phone: '+1234567890' })`
+2. **Verification Step**: Users enter 6-digit code sent via SMS
+3. **Authenticated Session**: Real phone-verified user account
+4. **Data Migration**: Existing phone numbers will be linked to verified accounts
+
+**Timeline:**
+- **Phase 1** (Current): Anonymous auth + phone logging for rapid user onboarding
+- **Phase 2** (Planned): Upgrade to real OTP verification with same UX
+- **Phase 3** (Future): Optional account linking and advanced user features
+
+This approach allows us to gather user interest and build the community while maintaining the technical infrastructure for a seamless upgrade to full phone verification.
+
 ## Search Functionality
 
 The search system uses vector embeddings to find similar AI resources. To populate your database with resources:
@@ -161,9 +213,6 @@ The application uses a custom hacker/terminal theme with:
 3. Make your changes
 4. Submit a pull request
 
-## License
-
-This project is licensed under the ISC License.
 
 ## Support
 

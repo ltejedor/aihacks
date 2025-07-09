@@ -19,12 +19,24 @@ const fetchUser = createServerFn({ method: 'GET' }).handler(async () => {
   const supabase = getSupabaseServerClient()
   const { data, error: _error } = await supabase.auth.getUser()
 
-  if (!data.user?.email) {
+  if (!data.user) {
     return null
   }
 
+  // Handle anonymous users (they don't have email)
+  if (data.user.is_anonymous) {
+    return {
+      id: data.user.id,
+      isAnonymous: true,
+      email: null,
+    }
+  }
+
+  // Handle regular users
   return {
+    id: data.user.id,
     email: data.user.email,
+    isAnonymous: false,
   }
 })
 
