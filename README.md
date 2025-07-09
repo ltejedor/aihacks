@@ -150,6 +150,59 @@ We welcome contributions! Areas where we'd love help:
 4. Test thoroughly
 5. Submit a pull request with a clear description
 
+## 🤖 AI-Powered Project Management
+
+We're using **GitHub MCP (Model Context Protocol)** for AI-driven project management! This allows contributors to interact with GitHub issues, pull requests, and more through natural language prompts in Cursor.
+
+### 🚀 Quick Setup Guide
+
+**What is MCP?** MCP is a plugin system that lets Cursor connect to external tools and APIs, including GitHub. By adding a GitHub MCP server, you enable AI-driven interaction with GitHub features.
+
+#### Step 1: Create GitHub Personal Access Token
+1. Go to GitHub Settings → Developer Settings → Personal Access Tokens
+2. Click "Generate new token" (choose fine-grained token if possible)
+3. Set permissions: `repo`, `issues` (minimum required)
+4. Copy the token for later use
+
+#### Step 2: Install GitHub MCP Server
+
+**Option A: Using Smithery CLI (Recommended)**
+```bash
+npx -y @smithery/cli@latest install @smithery-ai/github \
+  --client cursor \
+  --config '{"githubPersonalAccessToken":"your_token_here"}'
+```
+
+**Option B: Manual Configuration**
+Create/edit `~/.cursor/mcp.json`:
+```json
+{
+  "mcp_servers": {
+    "github": {
+      "command": "npx @smithery/github-mcp --token your_github_token"
+    }
+  }
+}
+```
+
+#### Step 3: Add to Cursor
+1. Open Cursor Settings (gear icon)
+2. Navigate to MCP section
+3. Click "+ Add new global MCP server"
+4. Paste the command from Step 2
+
+#### Step 4: Use GitHub MCP
+Open Cursor's Agent or Chat tab and try prompts like:
+- "Create a new GitHub issue titled 'Bug: Search not working' with description 'Steps to reproduce...'"
+- "List all open issues in the aihacks repository"
+- "Update issue #123 with a comment about the fix"
+
+### 💡 Tips
+- Use fine-grained tokens with minimal permissions for security
+- Check MCP logs in Cursor (Output panel → MCP Logs) if you encounter issues
+- Restart Cursor after updating MCP settings
+- Refer to [Smithery.ai](https://smithery.ai) for advanced workflows
+
 ## 🔒 Privacy & Ethics
 
 This project is designed for community benefit with privacy in mind:
