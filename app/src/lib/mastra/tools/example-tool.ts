@@ -1,4 +1,3 @@
-import { ToolApi } from '@mastra/core'
 import { z } from 'zod'
 
 const inputSchema = z.object({
@@ -12,12 +11,12 @@ const outputSchema = z.object({
   processed: z.boolean()
 })
 
-export const exampleTool = new ToolApi({
+export const exampleTool = {
   id: 'example_echo',
   description: 'Example tool that echoes a message with optional uppercase transformation',
   inputSchema,
   outputSchema,
-  execute: async ({ message, uppercase = false }) => {
+  execute: async ({ message, uppercase = false }: { message: string; uppercase?: boolean }) => {
     console.log('Example tool executing with message:', message)
     
     // Simple processing logic
@@ -29,4 +28,4 @@ export const exampleTool = new ToolApi({
       processed: true
     }
   }
-})
+}

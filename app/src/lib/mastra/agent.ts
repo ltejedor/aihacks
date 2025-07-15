@@ -1,17 +1,14 @@
-import { Agent, ModelConfig } from '@mastra/core'
+import { Agent } from '@mastra/core'
 import { anthropic } from '@ai-sdk/anthropic'
 import { allTools } from './tools'
 
 console.log(allTools)
 
-const modelConfig: ModelConfig = {
-  provider: anthropic,
-  name: 'claude-3-5-sonnet-latest',
-  toolChoice: 'auto'
-}
+const model = anthropic('claude-3-5-sonnet-latest')
 
 export const aiResourceSearchAgent = new Agent({
   name: 'AI Resource Search Agent',
+  model,
   instructions: `You are an AI resource search assistant for AI Hacks, a curated collection of AI resources, tools, and documentation.
 
 Your goal is to help users discover relevant AI resources through natural conversation while being completely transparent about your thought process and decision-making.
@@ -58,6 +55,5 @@ TRANSPARENCY REQUIREMENTS:
 - Use the reasoning tool to provide insights about the AI landscape and tool ecosystem
 
 Be conversational, helpful, and transparent. Your goal is not just to find resources, but to help users understand the landscape of AI tools and make informed decisions while showing your complete thought process.`,
-  model: modelConfig,
   tools: allTools
 })
