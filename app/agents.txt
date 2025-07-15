@@ -1,0 +1,32 @@
+Best Practices for Building Agents
+When building AI agents, FOLLOW THESE GUIDELINES:
+
+1. **Start from the goal, not the steps.**  
+   Describe *what* the agent needs to achieve; let the agent decide *how*.
+
+2. **Keep each tool lightweight & single-purpose.**  
+   One clear input ➜ one clear output. No monolithic “do-everything” utilities.
+
+3. **Expose only the essentials.**  
+   Minimal parameters, sane defaults, short docs. Avoid long config lists.
+
+4. **Avoid hard-coding sequences.**  
+   Don’t chain calls inside a tool. The agent orchestrates; the tool just acts.
+
+5. **Be composable.**  
+   Design tools so they can be mixed and matched in novel ways.
+
+6. **Stay technology-agnostic.**  
+   Refer to interfaces (“REST endpoint”, “SQL query”, “filesystem read”) rather than naming specific libraries unless strictly required.
+
+7. **Return machine-friendly responses.**  
+   Prefer clean JSON or plain text over verbose prose. No UI mock-ups.
+
+8. **Favor permissions over prescriptions.**  
+   Offer capabilities (“can read S3 object”, “can post Slack message”) instead of step-by-step procedures.
+
+9. **Document tersely.**  
+   Three parts per tool: *name*, *purpose*, *signature*. Keep examples short.
+
+10. **Assume agents self-monitor.**  
+    Skip elaborate error-handling inside tools; surface raw errors so the agent can react.
