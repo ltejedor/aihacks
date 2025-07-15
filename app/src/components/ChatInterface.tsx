@@ -269,60 +269,176 @@ export function ChatInterface() {
                   <div className="mt-4 border-t border-slate-700 pt-4">
                     <div className="text-blue-400 font-mono text-xs mb-3 flex items-center gap-2">
                       <span>🔧</span>
-                      <span>Agent Tool Usage ({message.toolInvocations.length})</span>
+                      <span>Agent Decision Process ({message.toolInvocations.length} tools used)</span>
                     </div>
                     {message.toolInvocations.map((tool, index) => {
                       // Log tool invocations
                       console.log('🔧 Tool invocation:', tool)
                       
                       return (
-                        <div key={index} className="mb-4 bg-slate-800 rounded-lg p-3">
-                          {/* Tool Header */}
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="text-slate-400 font-mono text-xs">
-                              <span className="text-emerald-400">→</span> {tool.toolName}
+                        <div key={index} className="mb-4 bg-slate-800 rounded-lg p-3 border border-slate-600">
+                          {/* Tool Header with Decision Context */}
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-2">
+                              <div className="text-emerald-400 font-mono text-xs">
+                                <span>→</span> {tool.toolName}
+                              </div>
+                              <div className="text-slate-400 font-mono text-xs">
+                                {tool.toolName === 'semantic_search' && '🔍 Semantic Search'}
+                                {tool.toolName === 'trending_resources' && '📈 Trending Analysis'}
+                                {tool.toolName === 'get_resource' && '📄 Resource Retrieval'}
+                                {tool.toolName === 'reasoning' && '🧠 Agent Reasoning'}
+                              </div>
                             </div>
                             <div className="text-slate-500 font-mono text-xs">
-                              {tool.state === 'call' && '⏳ Calling...'}
-                              {tool.state === 'result' && '✅ Complete'}
+                              {tool.state === 'call' && '⏳ Executing...'}
+                              {tool.state === 'result' && '✅ Completed'}
                               {tool.state === 'partial-call' && '🔄 Processing...'}
+                            </div>
+                          </div>
+                          
+                          {/* Tool Purpose & Strategy */}
+                          <div className="mb-3 p-2 bg-slate-900 rounded border-l-2 border-blue-400">
+                            <div className="text-blue-400 font-mono text-xs mb-1">Strategy & Purpose:</div>
+                            <div className="text-slate-300 text-xs">
+                              {tool.toolName === 'semantic_search' && 
+                                `Using semantic similarity to find resources related to: "${tool.args?.query}"`}
+                              {tool.toolName === 'trending_resources' && 
+                                `Analyzing trending resources based on reactions and evergreen ratings (limit: ${tool.args?.limit || 15})`}
+                              {tool.toolName === 'get_resource' && 
+                                `Retrieving specific resource with ID: ${tool.args?.resourceId}`}
+                              {tool.toolName === 'reasoning' && 
+                                `Analyzing thought process and decision-making: "${tool.args?.thinking?.substring(0, 50)}..."`}
                             </div>
                           </div>
                           
                           {/* Tool Arguments */}
                           {tool.args && Object.keys(tool.args).length > 0 && (
-                            <div className="mb-2">
-                              <div className="text-slate-500 font-mono text-xs mb-1">Arguments:</div>
+                            <div className="mb-3">
+                              <div className="text-slate-500 font-mono text-xs mb-1">Parameters:</div>
                               <div className="text-slate-300 font-mono text-xs bg-slate-900 rounded p-2">
                                 {JSON.stringify(tool.args, null, 2)}
                               </div>
                             </div>
                           )}
                           
-                          {/* Tool Results */}
+                          {/* Tool Results with Analysis */}
                           {tool.state === 'result' && tool.result && (
                             <div className="ml-2">
-                              <div className="text-slate-500 font-mono text-xs mb-2">Results:</div>
-                              {tool.toolName === 'semantic_search' || 
+                              <div className="text-slate-500 font-mono text-xs mb-2 flex items-center gap-2">
+                                <span>📊</span>
+                                <span>Results & Analysis:</span>
+                              </div>
+                              {tool.toolName === 'reasoning' && tool.result ? (
+                                <div className="space-y-2">
+                                  <div className="p-2 bg-slate-900 rounded border-l-2 border-purple-400 mb-3">
+                                    <div className="text-purple-400 font-mono text-xs mb-1">
+                                      🧠 Agent Reasoning:
+                                    </div>
+                                    <div className="text-slate-300 text-xs">
+                                      Confidence: {((tool.result.confidence || 0.8) * 100).toFixed(0)}%
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Reasoning Content */}
+                                  <div className="bg-slate-900 rounded p-2 border border-purple-400/30">
+                                    <div className="text-slate-300 text-xs whitespace-pre-wrap mb-2">
+                                      {tool.result.reasoning}
+                                    </div>
+                                    
+                                    {/* Insights */}
+                                    {tool.result.insights && tool.result.insights.length > 0 && (
+                                      <div className="mb-2">
+                                        <div className="text-blue-400 font-mono text-xs mb-1">💡 Insights:</div>
+                                        <ul className="text-slate-300 text-xs space-y-1">
+                                          {tool.result.insights.map((insight: string, idx: number) => (
+                                            <li key={idx} className="flex items-start gap-1">
+                                              <span className="text-blue-400 mt-0.5">•</span>
+                                              <span>{insight}</span>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    )}
+                                    
+                                    {/* Next Steps */}
+                                    {tool.result.next_steps && tool.result.next_steps.length > 0 && (
+                                      <div>
+                                        <div className="text-emerald-400 font-mono text-xs mb-1">🎯 Next Steps:</div>
+                                        <ul className="text-slate-300 text-xs space-y-1">
+                                          {tool.result.next_steps.map((step: string, idx: number) => (
+                                            <li key={idx} className="flex items-start gap-1">
+                                              <span className="text-emerald-400 mt-0.5">→</span>
+                                              <span>{step}</span>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              ) : tool.toolName === 'semantic_search' || 
                                tool.toolName === 'trending_resources' ? (
                                 <div className="space-y-2">
                                   {Array.isArray(tool.result) && tool.result.length > 0 ? (
                                     <>
-                                      <div className="text-slate-400 font-mono text-xs mb-2">
-                                        Found {tool.result.length} resources
+                                      {/* Results Summary */}
+                                      <div className="p-2 bg-slate-900 rounded border-l-2 border-emerald-400 mb-3">
+                                        <div className="text-emerald-400 font-mono text-xs mb-1">
+                                          Analysis Summary:
+                                        </div>
+                                        <div className="text-slate-300 text-xs">
+                                          Found {tool.result.length} resources.
+                                          {tool.toolName === 'semantic_search' && tool.result[0]?.similarity && (
+                                            <span> Top similarity: {(tool.result[0].similarity * 100).toFixed(1)}%</span>
+                                          )}
+                                          {tool.toolName === 'trending_resources' && (
+                                            <span> Ranked by trending score (reactions + evergreen rating / age)</span>
+                                          )}
+                                        </div>
                                       </div>
+                                      
+                                      {/* Resource Cards */}
                                       {tool.result.map((resource: SearchResult, idx: number) => (
-                                        <ResourceCard key={idx} resource={resource} />
+                                        <div key={idx} className="relative">
+                                          <ResourceCard resource={resource} />
+                                          {/* Relevance Indicator */}
+                                          {tool.toolName === 'semantic_search' && resource.similarity && (
+                                            <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded font-mono">
+                                              {(resource.similarity * 100).toFixed(1)}% match
+                                            </div>
+                                          )}
+                                          {tool.toolName === 'trending_resources' && idx < 3 && (
+                                            <div className="absolute top-2 right-2 bg-orange-600 text-white text-xs px-2 py-1 rounded font-mono">
+                                              #{idx + 1} trending
+                                            </div>
+                                          )}
+                                        </div>
                                       ))}
                                     </>
                                   ) : (
-                                    <div className="text-slate-400 font-mono text-xs">
-                                      No resources found
+                                    <div className="text-slate-400 font-mono text-xs p-2 bg-slate-900 rounded">
+                                      No resources found. This might indicate:
+                                      <ul className="list-disc list-inside mt-1 text-xs">
+                                        <li>The query is too specific or uses uncommon terms</li>
+                                        <li>The resource database may not contain relevant content</li>
+                                        <li>Consider trying broader search terms or trending resources</li>
+                                      </ul>
                                     </div>
                                   )}
                                 </div>
                               ) : tool.toolName === 'get_resource' && tool.result ? (
-                                <ResourceCard resource={tool.result as SearchResult} />
+                                <div className="space-y-2">
+                                  <div className="p-2 bg-slate-900 rounded border-l-2 border-emerald-400 mb-3">
+                                    <div className="text-emerald-400 font-mono text-xs mb-1">
+                                      Resource Retrieved:
+                                    </div>
+                                    <div className="text-slate-300 text-xs">
+                                      Successfully found specific resource: {tool.result.metadata?.title || 'Unknown'}
+                                    </div>
+                                  </div>
+                                  <ResourceCard resource={tool.result as SearchResult} />
+                                </div>
                               ) : (
                                 <div className="text-slate-300 text-xs font-mono bg-slate-900 rounded p-2">
                                   {typeof tool.result === 'string' 

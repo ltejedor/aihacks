@@ -212,7 +212,7 @@
   }
 
   .resource-card:hover {
-    @apply transform scale-105 shadow-lg border-emerald-500;
+    @apply shadow-lg border-emerald-500;
   }
 
   .resource-card-enter {
@@ -254,7 +254,7 @@
   }
 
   .resource-grid-item {
-    @apply transition-all duration-300 ease-in-out transform hover:scale-105;
+    @apply transition-all duration-300 ease-in-out;
   }
 
   /* Agent activity indicators */

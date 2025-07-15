@@ -212,7 +212,13 @@ export function HybridSearchInterface({ initialQuery }: HybridSearchInterfacePro
                   <div className="space-y-4 mb-4 max-h-96 overflow-y-auto">
                     {messages.length === 0 ? (
                       <div className="text-slate-400 font-mono text-xs">
-                        Agent is analyzing your search and finding relevant resources...
+                        <div className="flex items-center gap-2 mb-2">
+                          <span>🤖</span>
+                          <span>Agent is analyzing your search and finding relevant resources...</span>
+                        </div>
+                        <div className="text-slate-500 text-xs mt-2">
+                          The agent will explain its reasoning and tool choices in real-time.
+                        </div>
                       </div>
                     ) : (
                       messages.map((message) => (
@@ -226,7 +232,7 @@ export function HybridSearchInterface({ initialQuery }: HybridSearchInterfacePro
                         >
                           <div className="flex items-center gap-2 mb-2">
                             <span className="text-emerald-400 font-mono text-xs">
-                              {message.role === 'user' ? 'You' : 'Agent'}
+                              {message.role === 'user' ? '👤 You' : '🤖 Agent'}
                             </span>
                             <span className="text-slate-500 font-mono text-xs">
                               {message.createdAt.toLocaleTimeString()}
@@ -237,21 +243,58 @@ export function HybridSearchInterface({ initialQuery }: HybridSearchInterfacePro
                             {message.content}
                           </div>
                           
-                          {/* Tool Invocations */}
+                          {/* Enhanced Tool Invocations */}
                           {message.toolInvocations && message.toolInvocations.length > 0 && (
                             <div className="mt-3 border-t border-slate-700 pt-3">
                               <div className="text-blue-400 font-mono text-xs mb-2 flex items-center gap-1">
                                 <span>🔧</span>
-                                <span>Tools Used</span>
+                                <span>Decision Process ({message.toolInvocations.length} tools)</span>
                               </div>
                               {message.toolInvocations.map((tool, index) => (
-                                <div key={index} className="mb-2 bg-slate-800 rounded p-2">
-                                  <div className="text-emerald-400 font-mono text-xs mb-1">
-                                    → {tool.toolName}
+                                <div key={index} className="mb-2 bg-slate-800 rounded p-2 border border-slate-700">
+                                  <div className="flex items-center justify-between mb-1">
+                                    <div className="text-emerald-400 font-mono text-xs flex items-center gap-1">
+                                      <span>→</span> 
+                                      <span>{tool.toolName}</span>
+                                      {tool.toolName === 'semantic_search' && <span>🔍</span>}
+                                      {tool.toolName === 'trending_resources' && <span>📈</span>}
+                                      {tool.toolName === 'get_resource' && <span>📄</span>}
+                                      {tool.toolName === 'reasoning' && <span>🧠</span>}
+                                    </div>
+                                    <div className="text-slate-500 font-mono text-xs">
+                                      {tool.state === 'result' && '✅'}
+                                    </div>
                                   </div>
+                                  
+                                  {/* Tool Strategy */}
+                                  <div className="text-slate-400 font-mono text-xs mb-1">
+                                    {tool.toolName === 'semantic_search' && 
+                                      `Finding similar content for: "${tool.args?.query}"`}
+                                    {tool.toolName === 'trending_resources' && 
+                                      `Analyzing trending patterns (${tool.args?.limit || 15} resources)`}
+                                    {tool.toolName === 'get_resource' && 
+                                      `Retrieving resource: ${tool.args?.resourceId}`}
+                                    {tool.toolName === 'reasoning' && 
+                                      `Analyzing: "${tool.args?.thinking?.substring(0, 30)}..."`}
+                                  </div>
+                                  
                                   {tool.result && Array.isArray(tool.result) && (
                                     <div className="text-slate-400 font-mono text-xs">
-                                      Found {tool.result.length} resources
+                                      <span className="text-emerald-400">Found:</span> {tool.result.length} resources
+                                      {tool.toolName === 'semantic_search' && tool.result[0]?.similarity && (
+                                        <span className="ml-2">
+                                          (Top match: {(tool.result[0].similarity * 100).toFixed(1)}%)
+                                        </span>
+                                      )}
+                                    </div>
+                                  )}
+                                  
+                                  {tool.result && tool.toolName === 'reasoning' && (
+                                    <div className="text-slate-400 font-mono text-xs">
+                                      <span className="text-purple-400">🧠 Reasoning:</span> {tool.result.confidence ? `${(tool.result.confidence * 100).toFixed(0)}% confidence` : 'Analysis complete'}
+                                      {tool.result.insights && tool.result.insights.length > 0 && (
+                                        <span className="ml-2">({tool.result.insights.length} insights)</span>
+                                      )}
                                     </div>
                                   )}
                                 </div>
@@ -264,9 +307,14 @@ export function HybridSearchInterface({ initialQuery }: HybridSearchInterfacePro
                     
                     {isAgentThinking && (
                       <div className="p-3 bg-slate-900 border border-slate-600 rounded-lg">
-                        <div className="text-slate-400 font-mono text-xs animate-pulse flex items-center gap-2">
+                        <div className="text-slate-400 font-mono text-xs animate-pulse flex items-center gap-2 mb-2">
                           <span>🤖</span>
                           <span>Agent is thinking...</span>
+                        </div>
+                        <div className="text-slate-500 font-mono text-xs">
+                          • Analyzing your request<br/>
+                          • Selecting appropriate tools<br/>
+                          • Preparing search strategy
                         </div>
                       </div>
                     )}
