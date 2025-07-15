@@ -13,14 +13,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ai-sdk/anthropic": "^0.0.56",
+    "@mastra/core": "0.10.14",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.48.1",
-    "@tanstack/react-router": "^1.124.0",
-    "@tanstack/react-router-devtools": "^1.124.0",
-    "@tanstack/react-start": "^1.124.1",
+    "@tanstack/react-router": "^1.127.8",
+    "@tanstack/react-router-devtools": "^1.127.8",
+    "@tanstack/react-start": "^1.127.8",
+    "ai": "^4.0.30",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "redaxios": "^0.5.1"
+    "redaxios": "^0.5.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/react": "^19.0.8",

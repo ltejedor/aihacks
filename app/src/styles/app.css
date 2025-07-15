@@ -36,6 +36,79 @@
     51%, 100% { opacity: 0; }
   }
 
+  /* Resource movement animations */
+  @keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInFromRight {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200px 0;
+    }
+    100% {
+      background-position: calc(200px + 100%) 0;
+    }
+  }
+
+  @keyframes bounce-subtle {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-3px);
+    }
+    60% {
+      transform: translateY(-2px);
+    }
+  }
+
   /* Subtle scrollbar styling */
   ::-webkit-scrollbar {
     width: 8px;
@@ -74,5 +147,129 @@
 
   .hacker-link {
     @apply text-blue-400 hover:text-emerald-400 transition-colors duration-200;
+  }
+
+  /* Animation utility classes */
+  .animate-slideInFromLeft {
+    animation: slideInFromLeft 0.5s ease-out;
+  }
+
+  .animate-slideInFromRight {
+    animation: slideInFromRight 0.5s ease-out;
+  }
+
+  .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle 2s infinite;
+  }
+
+  .animate-bounce-subtle {
+    animation: bounce-subtle 1s ease-in-out;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      #1e293b 0%,
+      #334155 50%,
+      #1e293b 100%
+    );
+    background-size: 200px 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Staggered animation delays */
+  .animate-stagger-1 {
+    animation-delay: 0.1s;
+  }
+
+  .animate-stagger-2 {
+    animation-delay: 0.2s;
+  }
+
+  .animate-stagger-3 {
+    animation-delay: 0.3s;
+  }
+
+  .animate-stagger-4 {
+    animation-delay: 0.4s;
+  }
+
+  .animate-stagger-5 {
+    animation-delay: 0.5s;
+  }
+
+  /* Resource card animations */
+  .resource-card {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .resource-card:hover {
+    @apply transform scale-105 shadow-lg border-emerald-500;
+  }
+
+  .resource-card-enter {
+    @apply animate-fadeInUp;
+  }
+
+  .resource-card-agent {
+    @apply animate-slideInFromRight;
+  }
+
+  /* Agent thinking animation */
+  .agent-thinking {
+    @apply animate-pulse-subtle;
+  }
+
+  .agent-thinking::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent;
+    animation: shimmer 2s infinite;
+  }
+
+  /* Search results container */
+  .search-results-container {
+    @apply transition-all duration-700 ease-in-out;
+  }
+
+  /* Dynamic resource movement */
+  .resource-moving {
+    @apply transition-transform duration-500 ease-in-out;
+  }
+
+  .resource-highlight {
+    @apply ring-2 ring-emerald-400 ring-opacity-50 animate-pulse;
+  }
+
+  /* Board-like grid effect */
+  .resource-grid {
+    @apply transition-all duration-500 ease-in-out;
+  }
+
+  .resource-grid-item {
+    @apply transition-all duration-300 ease-in-out transform hover:scale-105;
+  }
+
+  /* Agent activity indicators */
+  .agent-active {
+    @apply relative overflow-hidden;
+  }
+
+  .agent-active::after {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-blue-400;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Smooth transitions for layout changes */
+  .layout-transition {
+    @apply transition-all duration-500 ease-in-out;
   }
 }

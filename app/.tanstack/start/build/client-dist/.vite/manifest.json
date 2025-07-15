@@ -1,6 +1,6 @@
 {
   "../../../../../../~start/default-client-entry.tsx": {
-    "file": "assets/main-Da8gHJDy.js",
+    "file": "assets/main-BEIYHoiB.js",
     "name": "main",
     "src": "../../../../../../~start/default-client-entry.tsx",
     "isEntry": true,
@@ -16,30 +16,22 @@
       "src/routes/_authed/posts.$postId.tsx?tsr-split=component"
     ],
     "assets": [
-      "assets/app-BVrxwaIj.css"
+      "assets/app-BLS5PsbY.css"
     ]
   },
   "/Users/leandratejedor/Documents/social-exp/social-exp-repo/app/src/styles/app.css": {
-    "file": "assets/app-BVrxwaIj.css",
+    "file": "assets/app-BLS5PsbY.css",
     "src": "/Users/leandratejedor/Documents/social-exp/social-exp-repo/app/src/styles/app.css"
   },
-  "_SearchResults-BP8g58qN.js": {
-    "file": "assets/SearchResults-BP8g58qN.js",
+  "_SearchResults-Bw0A_X7Y.js": {
+    "file": "assets/SearchResults-Bw0A_X7Y.js",
     "name": "SearchResults",
-    "imports": [
-      "../../../../../../~start/default-client-entry.tsx",
-      "_useMutation-08HiTXAR.js"
-    ]
-  },
-  "_useMutation-08HiTXAR.js": {
-    "file": "assets/useMutation-08HiTXAR.js",
-    "name": "useMutation",
     "imports": [
       "../../../../../../~start/default-client-entry.tsx"
     ]
   },
   "src/routes/_authed/posts.$postId.tsx?tsr-split=component": {
-    "file": "assets/posts._postId-dYOwxyVf.js",
+    "file": "assets/posts._postId-DLLAaDSz.js",
     "name": "posts._postId",
     "src": "src/routes/_authed/posts.$postId.tsx?tsr-split=component",
     "isDynamicEntry": true,
@@ -48,7 +40,7 @@
     ]
   },
   "src/routes/_authed/posts.$postId.tsx?tsr-split=notFoundComponent": {
-    "file": "assets/posts._postId-BOs-agTy.js",
+    "file": "assets/posts._postId-BdEr0fAN.js",
     "name": "posts._postId",
     "src": "src/routes/_authed/posts.$postId.tsx?tsr-split=notFoundComponent",
     "isDynamicEntry": true,
@@ -57,7 +49,7 @@
     ]
   },
   "src/routes/_authed/posts.index.tsx?tsr-split=component": {
-    "file": "assets/posts.index-N3oIWipJ.js",
+    "file": "assets/posts.index-BgPYp8lP.js",
     "name": "posts.index",
     "src": "src/routes/_authed/posts.index.tsx?tsr-split=component",
     "isDynamicEntry": true,
@@ -66,7 +58,7 @@
     ]
   },
   "src/routes/_authed/posts.tsx?tsr-split=component": {
-    "file": "assets/posts-BAlatF87.js",
+    "file": "assets/posts-CCvVNhYn.js",
     "name": "posts",
     "src": "src/routes/_authed/posts.tsx?tsr-split=component",
     "isDynamicEntry": true,
@@ -75,28 +67,26 @@
     ]
   },
   "src/routes/index.tsx?tsr-split=component": {
-    "file": "assets/index-Cud9NcdN.js",
+    "file": "assets/index-DaDS61Pz.js",
     "name": "index",
     "src": "src/routes/index.tsx?tsr-split=component",
     "isDynamicEntry": true,
     "imports": [
       "../../../../../../~start/default-client-entry.tsx",
-      "_SearchResults-BP8g58qN.js",
-      "_useMutation-08HiTXAR.js"
+      "_SearchResults-Bw0A_X7Y.js"
     ]
   },
   "src/routes/phone-login.tsx?tsr-split=component": {
-    "file": "assets/phone-login-yT2bI9qj.js",
+    "file": "assets/phone-login-Boe9aM5y.js",
     "name": "phone-login",
     "src": "src/routes/phone-login.tsx?tsr-split=component",
     "isDynamicEntry": true,
     "imports": [
-      "../../../../../../~start/default-client-entry.tsx",
-      "_useMutation-08HiTXAR.js"
+      "../../../../../../~start/default-client-entry.tsx"
     ]
   },
   "src/routes/resource.$resourceId.tsx?tsr-split=component": {
-    "file": "assets/resource._resourceId-D54r0Szj.js",
+    "file": "assets/resource._resourceId-CKmWXRdf.js",
     "name": "resource._resourceId",
     "src": "src/routes/resource.$resourceId.tsx?tsr-split=component",
     "isDynamicEntry": true,
@@ -105,7 +95,7 @@
     ]
   },
   "src/routes/resource.$resourceId.tsx?tsr-split=notFoundComponent": {
-    "file": "assets/resource._resourceId-BVsT8Tli.js",
+    "file": "assets/resource._resourceId-VGFn2fP9.js",
     "name": "resource._resourceId",
     "src": "src/routes/resource.$resourceId.tsx?tsr-split=notFoundComponent",
     "isDynamicEntry": true,
@@ -114,14 +104,13 @@
     ]
   },
   "src/routes/search.tsx?tsr-split=component": {
-    "file": "assets/search-CFiHFnOK.js",
+    "file": "assets/search-D1zP6g6T.js",
     "name": "search",
     "src": "src/routes/search.tsx?tsr-split=component",
     "isDynamicEntry": true,
     "imports": [
       "../../../../../../~start/default-client-entry.tsx",
-      "_SearchResults-BP8g58qN.js",
-      "_useMutation-08HiTXAR.js"
+      "_SearchResults-Bw0A_X7Y.js"
     ]
   }
 }

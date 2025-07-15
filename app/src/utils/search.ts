@@ -16,6 +16,11 @@ export type SearchResult = {
   similarity?: number
 }
 
+/**
+ * @deprecated Use the agentic search through ChatInterface instead.
+ * This function is kept for backwards compatibility but the new
+ * agent-based approach is recommended for all new implementations.
+ */
 export const searchResources = createServerFn({ method: 'POST' })
   .validator((data: unknown) => {
     // Handle the data wrapper from the client
@@ -78,6 +83,11 @@ export const searchResources = createServerFn({ method: 'POST' })
     return data as SearchResult[]
   })
 
+/**
+ * @deprecated Use the agentic search through ChatInterface instead.
+ * This function is kept for backwards compatibility but the new
+ * agent-based approach is recommended for all new implementations.
+ */
 export const getTrendingResources = createServerFn({ method: 'GET' })
   .handler(async () => {
     console.log('Fetching trending resources...')
@@ -153,6 +163,11 @@ export const getTrendingResources = createServerFn({ method: 'GET' })
     }
   })
 
+/**
+ * @deprecated Use the agentic search through ChatInterface instead.
+ * This function is kept for backwards compatibility but the new
+ * agent-based approach is recommended for all new implementations.
+ */
 export const getResourceById = createServerFn({ method: 'GET' })
   .validator((data: string) => data)
   .handler(async ({ data: resourceId }) => {

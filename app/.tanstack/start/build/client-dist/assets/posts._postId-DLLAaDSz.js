@@ -1,0 +1,1 @@
+import{f as e,j as t}from"./main-BEIYHoiB.js";const a=function(){const s=e.useLoaderData();return t.jsxs("div",{className:"space-y-2",children:[t.jsx("h4",{className:"text-xl font-bold underline",children:s.title}),t.jsx("div",{className:"text-sm",children:s.body})]})};export{a as component};

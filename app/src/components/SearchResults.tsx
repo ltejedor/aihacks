@@ -37,7 +37,7 @@ function formatContentWithLinks(content: string): React.ReactElement {
   )
 }
 
-function SearchResultCard({ result }: { result: SearchResult }) {
+function SearchResultCard({ result, index = 0 }: { result: SearchResult; index?: number }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [showFullContent, setShowFullContent] = useState(false)
   
@@ -61,8 +61,11 @@ function SearchResultCard({ result }: { result: SearchResult }) {
     }
   }
 
+  // Determine animation class based on index
+  const animationClass = `animate-fadeInUp animate-stagger-${Math.min(index + 1, 5)}`
+
   return (
-    <div className="bg-slate-900 border border-slate-700 rounded-lg mb-6 overflow-hidden">
+    <div className={`resource-card resource-card-enter ${animationClass} bg-slate-900 border border-slate-700 rounded-lg mb-6 overflow-hidden`}>
       {/* Header - Clean Title Section */}
       <div className="bg-slate-800 border-b border-slate-700 p-4">
         <div className="flex items-start justify-between mb-3">
@@ -75,7 +78,7 @@ function SearchResultCard({ result }: { result: SearchResult }) {
             </h3>
           </div>
           <div className="flex items-center gap-4 text-xs font-mono ml-4">
-            <span className="flex items-center gap-1 text-blue-400">
+            <span className="flex items-center gap-1 text-blue-400 animate-bounce-subtle">
               <span>↑</span>
               <span>{result.metadata.reaction_count}</span>
             </span>
@@ -92,7 +95,7 @@ function SearchResultCard({ result }: { result: SearchResult }) {
             {result.metadata.tags.map((tag, index) => (
               <span
                 key={index}
-                className="inline-block bg-slate-700 text-emerald-400 text-xs px-2 py-1 font-mono rounded-md"
+                className="inline-block bg-slate-700 text-emerald-400 text-xs px-2 py-1 font-mono rounded-md transition-all duration-200 hover:bg-emerald-500 hover:text-slate-900"
               >
                 {tag}
               </span>
@@ -107,13 +110,13 @@ function SearchResultCard({ result }: { result: SearchResult }) {
         <div className="flex items-center gap-3 text-xs font-mono">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-blue-400 hover:text-emerald-400 transition-colors"
+            className="hacker-link transition-all duration-200 hover:animate-bounce-subtle"
           >
             {isExpanded ? 'Collapse' : 'Expand'}
           </button>
           <button
             onClick={() => copyToClipboard(generateShareableLink(result.metadata.resource_id))}
-            className="text-blue-400 hover:text-emerald-400 transition-colors"
+            className="hacker-link transition-all duration-200 hover:animate-bounce-subtle"
           >
             Copy Link
           </button>
@@ -121,7 +124,7 @@ function SearchResultCard({ result }: { result: SearchResult }) {
             href={generateShareableLink(result.metadata.resource_id)}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-400 hover:text-emerald-400 transition-colors"
+            className="hacker-link transition-all duration-200 hover:animate-bounce-subtle"
           >
             Open Resource
           </a>
@@ -129,16 +132,16 @@ function SearchResultCard({ result }: { result: SearchResult }) {
       </div>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-4 layout-transition">
         {isExpanded ? (
-          <div className="space-y-4">
+          <div className="space-y-4 animate-fadeIn">
             <div className="text-slate-100 font-sans text-sm leading-relaxed">
               {formatContentWithLinks(result.content)}
             </div>
             
             {/* Links section */}
             {hasLinks && (
-              <div className="border-t border-slate-700 pt-4">
+              <div className="border-t border-slate-700 pt-4 animate-fadeInUp">
                 <h4 className="text-emerald-400 font-semibold text-sm mb-3">
                   Documentation Links ({links.length})
                 </h4>
@@ -149,7 +152,7 @@ function SearchResultCard({ result }: { result: SearchResult }) {
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 p-2 bg-slate-700 border border-slate-600 hover:border-emerald-500 transition-colors rounded-md"
+                      className={`resource-grid-item flex items-center gap-2 p-2 bg-slate-700 border border-slate-600 hover:border-emerald-500 transition-all duration-200 rounded-md animate-fadeInUp animate-stagger-${Math.min(index + 1, 5)}`}
                     >
                       <span className="text-blue-400 font-mono">→</span>
                       <span className="text-blue-400 hover:text-emerald-400 text-xs break-all transition-colors">
@@ -169,12 +172,12 @@ function SearchResultCard({ result }: { result: SearchResult }) {
                   <p className="mb-2">{result.content.substring(0, 300)}...</p>
                   <button
                     onClick={() => setShowFullContent(!showFullContent)}
-                    className="text-blue-400 hover:text-emerald-400 text-xs transition-colors"
+                    className="hacker-link text-xs transition-all duration-200 hover:animate-bounce-subtle"
                   >
                     {showFullContent ? 'Hide Preview' : 'Show Preview'}
                   </button>
                   {showFullContent && (
-                    <div className="mt-3 text-slate-100 font-sans text-sm leading-relaxed">
+                    <div className="mt-3 text-slate-100 font-sans text-sm leading-relaxed animate-fadeIn">
                       {formatContentWithLinks(result.content)}
                     </div>
                   )}
@@ -186,7 +189,7 @@ function SearchResultCard({ result }: { result: SearchResult }) {
             
             {/* Links preview */}
             {hasLinks && (
-              <div className="border-t border-slate-700 pt-3">
+              <div className="border-t border-slate-700 pt-3 animate-fadeInUp">
                 <div className="mb-2">
                   <span className="text-emerald-400 font-semibold text-xs">Links:</span>
                 </div>
@@ -197,7 +200,7 @@ function SearchResultCard({ result }: { result: SearchResult }) {
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-xs text-blue-400 hover:text-emerald-400 transition-colors"
+                      className="resource-grid-item flex items-center gap-2 text-xs text-blue-400 hover:text-emerald-400 transition-all duration-200"
                     >
                       <span className="text-blue-400">→</span>
                       <span className="truncate">{link}</span>
@@ -229,10 +232,10 @@ export function SearchResults({ results, isLoading }: SearchResultsProps) {
   if (isLoading) {
     return (
       <div className="text-center py-8">
-        <div className="text-emerald-400 font-mono text-sm animate-pulse-subtle">
+        <div className="text-emerald-400 font-mono text-sm agent-thinking">
           Searching...
         </div>
-        <div className="text-slate-400 font-sans text-sm mt-2">
+        <div className="text-slate-400 font-sans text-sm mt-2 animate-pulse-subtle">
           Finding the most relevant resources for you
         </div>
       </div>
@@ -241,7 +244,7 @@ export function SearchResults({ results, isLoading }: SearchResultsProps) {
 
   if (results.length === 0) {
     return (
-      <div className="text-center py-8">
+      <div className="text-center py-8 animate-fadeIn">
         <div className="text-red-500 font-mono text-sm mb-2">
           No results found
         </div>
@@ -253,14 +256,16 @@ export function SearchResults({ results, isLoading }: SearchResultsProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="text-emerald-400 font-mono text-sm mb-4 border-b border-slate-700 pb-2">
+    <div className="search-results-container space-y-6">
+      <div className="text-emerald-400 font-mono text-sm mb-4 border-b border-slate-700 pb-2 animate-fadeIn">
         Found {results.length} results
       </div>
       
-      {results.map((result) => (
-        <SearchResultCard key={result.id} result={result} />
-      ))}
+      <div className="resource-grid">
+        {results.map((result, index) => (
+          <SearchResultCard key={result.id} result={result} index={index} />
+        ))}
+      </div>
     </div>
   )
 }
