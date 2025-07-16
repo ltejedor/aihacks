@@ -5,10 +5,6 @@
 A comprehensive platform that organizes and makes searchable the wealth of AI resources shared in WhatsApp communities. Built specifically for the MIT AI Hacks community, this project transforms casual group conversations into a curated, searchable knowledge base.
 
 ## 🎯 What This Project Does
-
-AI communities on WhatsApp are goldmines of practical advice, tool recommendations, and real-world insights. However, this valuable information gets buried in chat history and becomes impossible to find when you need it most. 
-
-**AI Hacks solves this by:**
 - 📱 **Extracting** conversations and reactions from WhatsApp groups
 - 🤖 **Processing** messages with AI to identify evergreen, valuable resources
 - 🔍 **Creating** vector embeddings for semantic search
