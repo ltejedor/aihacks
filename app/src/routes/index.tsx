@@ -1,6 +1,8 @@
 import { createFileRoute, redirect, useLoaderData } from '@tanstack/react-router'
 import { SearchResults } from '../components/SearchResults'
+import { FeedbackContact } from '../components/FeedbackContact'
 import { getTrendingResources } from '../utils/search'
+import { getFeedbackPhone } from '../utils/feedback'
 import { useState } from 'react'
 
 export const Route = createFileRoute('/')({
@@ -13,13 +15,14 @@ export const Route = createFileRoute('/')({
   },
   loader: async () => {
     const trendingResources = await getTrendingResources()
-    return { trendingResources }
+    const phoneNumber = await getFeedbackPhone()
+    return { trendingResources, phoneNumber }
   },
   component: Home,
 })
 
 function Home() {
-  const { trendingResources } = useLoaderData({ from: '/' })
+  const { trendingResources, phoneNumber } = useLoaderData({ from: '/' })
   const [searchQuery, setSearchQuery] = useState('')
 
   const handleSearch = (e: React.FormEvent) => {
@@ -43,9 +46,10 @@ function Home() {
               <div className="text-blue-400 font-mono text-sm md:text-base mb-4">
                 <span className="text-emerald-400">&gt;</span> Discover trending AI resources, tools, and insights
               </div>
-              <div className="text-slate-400 font-mono text-xs mb-6">
+              <div className="text-slate-400 font-mono text-xs mb-4">
                 Curated collection of the most valuable AI resources, ranked by community engagement
               </div>
+              <FeedbackContact phoneNumber={phoneNumber} />
             </div>
           </div>
 

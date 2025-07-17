@@ -1,5 +1,6 @@
-import { createFileRoute, redirect, useSearch } from '@tanstack/react-router'
+import { createFileRoute, redirect, useSearch, useLoaderData } from '@tanstack/react-router'
 import { HybridSearchInterface } from '../components/HybridSearchInterface'
+import { getFeedbackPhone } from '../utils/feedback'
 import { z } from 'zod'
 
 const searchSchema = z.object({
@@ -14,6 +15,10 @@ export const Route = createFileRoute('/search')({
         to: '/phone-login',
       })
     }
+  },
+  loader: async () => {
+    const phoneNumber = await getFeedbackPhone()
+    return { phoneNumber }
   },
   component: SearchPage,
 })
