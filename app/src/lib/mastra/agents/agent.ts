@@ -1,6 +1,19 @@
 import { Agent } from '@mastra/core'
 import { anthropic } from '@ai-sdk/anthropic'
-import { allTools } from './tools'
+import { semanticSearchTool } from '../tools/semantic-search'
+import { trendingResourcesTool } from '../tools/trending-resources'
+import { getResourceTool } from '../tools/get-resource'
+import { reasoningTool } from '../tools/reasoning-tool'
+import { exampleTool } from '../tools/example-tool'
+
+// Create tools object
+const allTools = {
+  semantic_search: semanticSearchTool,
+  trending_resources: trendingResourcesTool,
+  get_resource: getResourceTool,
+  reasoning: reasoningTool,
+  // example: exampleTool, // Uncomment to enable the example tool
+}
 
 console.log(allTools)
 
