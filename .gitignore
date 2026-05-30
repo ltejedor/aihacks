@@ -18,3 +18,9 @@ yarn.lock
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# --- WhatsApp tooling: keep PII out of the public repo ---
+# The whatsapp/ dir holds resolved phone<->name maps, member dumps, and live
+# browser sessions. Ignored wholesale until a deidentified template is designed.
+# (Nothing here is currently tracked; this just prevents an accidental `git add`.)
+whatsapp/

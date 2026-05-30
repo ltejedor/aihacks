@@ -70,11 +70,11 @@ Built on the powerful `whatsapp-web.js` library, this component handles the extr
 - **Media Handling**: Processes images, documents, and other shared files
 - **Continuous Monitoring**: Watches for new messages and updates
 
-**Key Scripts:**
-- `message-content-extractor.js` - Main extraction engine for conversations
-- `reaction-monitor.js` - Real-time reaction tracking
-- `export-group-members.js` - Group membership analysis
-- Various analysis tools for activity reports and engagement metrics
+> **Note:** the original one-off collection scripts have been retired in favor of
+> **[`/community-gardener`](community-gardener/)** — a reusable, deidentified, config-driven
+> agent for tending a WhatsApp community (resolve anonymized members, score real engagement,
+> protect-before-prune, ask-first sends/removals). Point it at your own groups; Claude Code is
+> the brain. Start at `community-gardener/CLAUDE.md`. No community data lives in this repo.
 
 **Tech Stack:**
 - **Runtime**: Node.js
