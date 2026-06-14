@@ -1,4 +1,0 @@
-openai
-python-dotenv
-anthropic
-supabase>=2.0.0

@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "github": {
-      "url": "https://api.githubcopilot.com/mcp/",
-      "authorization_token": "Bearer ${GITHUB_ACCESS_TOKEN}"
-    }
-  }
-}
-  
