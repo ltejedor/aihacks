@@ -1,26 +1,26 @@
-node_modules
-# Keep environment variables out of version control
-!.env
+# Community Gardener — keep PII and secrets out of this public harness repo.
+# The harness ships generic. YOUR community lives in config.local.js, data/,
+# persona.local.json, and memory/ — none of which is ever committed.
+
+# Your community (never commit)
+config.local.js
+persona.local.json
+data/*
+!data/protect.example.json
+memory/*.md
+!memory/SCHEMA.md
+
+# Linked WhatsApp session + browser cache
+.wwebjs_auth/
+.wwebjs_cache/
+
+# Node / logs / OS / env
+node_modules/
 package-lock.json
 yarn.lock
-
+*.log
 .DS_Store
-.cache
 .env
-.vercel
-.output
-/build/
-/api/
-/server/build
-/public/build# Sentry Config File
-.env.sentry-build-plugin
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
 
-# --- WhatsApp tooling: keep PII out of the public repo ---
-# The whatsapp/ dir holds resolved phone<->name maps, member dumps, and live
-# browser sessions. Ignored wholesale until a deidentified template is designed.
-# (Nothing here is currently tracked; this just prevents an accidental `git add`.)
+# Legacy local-only tooling dir (holds PII; never tracked)
 whatsapp/

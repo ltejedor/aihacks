@@ -1,246 +1,105 @@
-# AI Hacks - AI Resource Search Platform
+# 🌱 Community Gardener
 
-> **🚀 Live Demo**: [https://aihacks.vercel.app/](https://aihacks.vercel.app/)
+A reusable, config-driven agent for tending a large WhatsApp **community** — the kind that
+fills up, accumulates lurkers, and slowly loses signal. Clone this repo, open it in **Claude
+Code**, point it at your own group(s), and it will: learn who's actually there, score real
+engagement (messages **and** reactions, even from anonymized members), surface who to keep /
+protect / invite / connect, welcome newcomers, introduce people to each other, keep a growing
+dossier on who's who, and — carefully, with your sign-off — prune the dead weight.
 
-A comprehensive platform that organizes and makes searchable the wealth of AI resources shared in WhatsApp communities. Built specifically for the MIT AI Hacks community, this project transforms casual group conversations into a curated, searchable knowledge base.
+You drive it through Claude Code: open the repo and Claude *is* the gardener (see `CLAUDE.md`).
+It talks in plain language and uses the tools below. There's no model API key to set — Claude
+is the brain; the tools are just hands.
 
-## 🎯 What This Project Does
-- 📱 **Extracting** conversations and reactions from WhatsApp groups
-- 🤖 **Processing** messages with AI to identify evergreen, valuable resources
-- 🔍 **Creating** vector embeddings for semantic search
-- 🌐 **Presenting** everything in a beautiful, searchable web interface
+It is **not** a 24/7 bot. There is no always-on daemon. You run tools on demand; each opens the
+linked session, does one thing, and exits.
 
-## 🏗️ Architecture Overview
+This is the deidentified distillation of a system built for one ~2,000-member community. All
+names, numbers, group IDs, and data live in **your** `config.local.js` + `data/` — nothing
+identifying ships in this repo.
 
-This project consists of three main components that work together to create a complete resource discovery system:
+> ⚠️ This drives WhatsApp through an **unofficial** automation library. Read `docs/RISKS.md`
+> before you run it — account bans, rate limits, and irreversible removals are real.
 
-```
-Data Collection → AI Processing → Web Interface
-     ↓               ↓               ↓            
-  [whatsapp]    →  [pipeline]    →  [app]   
-```
+## What it does (and what it learned the hard way)
 
-### 📱 `/app` - Frontend Web Application
+- **Resolves identity.** WhatsApp addresses many people by anonymized `@lid` IDs, not phone
+  numbers. The gardener taps WhatsApp Web's internal `LidUtils` map to turn every `@lid` into a
+  real phone + name, and keeps a **grow-only name ledger** so a name seen once is never lost.
+  (This was *the* unsolved problem — see `docs/IDENTITY.md`.)
+- **Scores engagement by id, not name.** Reaction-givers and recent posters are credited even
+  when their display name never linked to a phone. A quiet reactor is engagement, not a ghost.
+- **Keeps a dossier on people.** Everything it learns about a member — what they build, why
+  they matter, who said so — accumulates on a per-person record *with provenance*, so the next
+  session knows them too. It never overwrites a real name or double-writes a note.
+- **Reads any chat — including DMs.** It can open a group or a direct message and pull the
+  recent thread, so it answers "what was said about X" from the actual conversation.
+- **Introduces people.** It can spin up a fresh group to connect two builders — and it explains
+  the context *before* anyone gets a link, so nobody receives a bare invite that reads as spam.
+- **Posts with intent.** When it sends a message it can `@mention` someone so it actually
+  highlights and notifies them, and quote-reply to thread onto a specific message.
+- **Helps with onboarding.** It can read the join queue and approve or decline pending requests.
+- **Protects before it prunes.** A `protect.json` layer (admins, reactors, builders, recently
+  active, hand-named keepers) is loaded everywhere; protected people can never land on a cut
+  list. When in doubt, keep.
+- **Asks before acting.** Sending a message, removing someone, creating a group — each runs
+  through an approval gate that states *exactly* what will happen and where, and waits for your
+  yes (`lib/approval.js`).
+- **Knows chat vs. community.** Removing from one chat is local; removing from the umbrella is
+  nuclear (out of everything). It always states the scope first. See `docs/REMOVAL.md`.
+- **Refuses to prune on stale data.** A recency/coverage guard blocks a cut list when the data
+  is old or mostly unresolved.
+- **Vets before cutting.** A nameless "PRUNE-tier lurker" is often a founder who just never
+  typed. The gardener looks people up before recommending a cut.
 
-**Live at**: [https://aihacks.vercel.app/](https://aihacks.vercel.app/)
+## Quickstart
 
-A modern React application with a sleek terminal-inspired interface that makes AI resources discoverable through:
-
-- 🔍 **Vector Similarity Search**: Find resources using natural language queries
-- 🔥 **Trending Resources**: Discover the most popular and newest content
-- 🔐 **User Authentication**: Secure access for community members
-- 📱 **Responsive Design**: Works beautifully on desktop and mobile
-
-**Tech Stack:**
-- **Frontend**: React 19, TanStack Start, TypeScript
-- **Backend**: Supabase (Database, Auth, Real-time)
-- **Styling**: TailwindCSS with custom hacker/terminal theme
-- **Search**: Vector embeddings with OpenAI
-- **Deployment**: Vercel
-
-### 🔄 `/pipeline` - AI Processing Pipeline
-
-The brain of the operation - transforms raw WhatsApp messages into high-quality, searchable resources through a sophisticated 4-step process:
-
-1. **📋 Organize** - Groups related messages into topical clusters using GPT-4
-2. **⭐ Rate** - Evaluates content for evergreen value (0-3 scale) using Claude
-3. **✨ Enrich** - Generates summaries, documentation, and tags using Claude
-4. **🔢 Vectorize** - Creates embeddings and uploads to Supabase using OpenAI
-
-**Key Features:**
-- Filters out time-sensitive content (events, job posts, social chatter)
-- Focuses on evergreen, actionable advice and tool recommendations
-- Preserves context with reaction counts and community engagement
-- Generates structured metadata for enhanced search
-
-**Tech Stack:**
-- **Language**: Python
-- **AI Models**: OpenAI GPT-4o-mini, Anthropic Claude 3 Haiku & Sonnet
-- **Database**: Supabase with vector extensions
-- **Processing**: Custom scripts with retry logic and rate limiting
-
-### 📲 `/whatsapp` - Data Collection System
-
-Built on the powerful `whatsapp-web.js` library, this component handles the extraction of conversations from WhatsApp groups:
-
-**Core Features:**
-- **Message Extraction**: Captures full conversation history with metadata
-- **Reaction Monitoring**: Tracks emoji reactions and engagement in real-time
-- **Member Management**: Exports group member information and roles
-- **Media Handling**: Processes images, documents, and other shared files
-- **Continuous Monitoring**: Watches for new messages and updates
-
-> **Note:** the original one-off collection scripts have been retired in favor of
-> **[`/community-gardener`](community-gardener/)** — a reusable, deidentified, config-driven
-> agent for tending a WhatsApp community (resolve anonymized members, score real engagement,
-> protect-before-prune, ask-first sends/removals). Point it at your own groups; Claude Code is
-> the brain. Start at `community-gardener/CLAUDE.md`. No community data lives in this repo.
-
-**Tech Stack:**
-- **Runtime**: Node.js
-- **WhatsApp Integration**: whatsapp-web.js
-- **Authentication**: Local session management
-- **Data Storage**: JSON files with structured schemas
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18+ (for WhatsApp extraction and frontend)
-- Python 3.8+ (for AI processing pipeline)
-- Supabase account (for database and auth)
-- OpenAI API key (for embeddings and processing)
-- Anthropic API key (for content rating and enrichment)
-
-### Quick Start
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/ltejedor/aihacks.git
-   cd aihacks
-   ```
-
-2. **Set up the frontend** (try the search interface)
-   ```bash
-   cd app
-   npm install
-   cp .env.example .env.local
-   # Add your Supabase credentials
-   npm run dev
-   ```
-
-3. **Explore the pipeline** 
-   ```bash
-   cd pipeline
-   pip install -r requirements.txt
-   # Check out the example data and scripts
-   ```
-
-4. **Run WhatsApp extraction** 
-   ```bash
-   cd whatsapp
-   npm install
-   # Run any of the analysis scripts
-   ```
-
-## 🤝 Get Involved
-
-**This project is in early development** - we're actively building and improving the platform! Here's how you can contribute:
-
-### 🐛 Found Issues or Have Ideas?
-- **Report bugs** or **request features** by [opening GitHub issues](https://github.com/ltejedor/aihacks/issues)
-- **Share feedback** on the user experience at [aihacks.vercel.app](https://aihacks.vercel.app/)
-- **Suggest improvements** to the search relevance or interface
-
-### 💻 Want to Contribute Code?
-We welcome contributions! Areas where we'd love help:
-- **Frontend improvements** - UI/UX enhancements, new features
-- **Search optimization** - Better ranking algorithms, filters
-- **Pipeline enhancements** - More sophisticated AI processing
-- **WhatsApp integration** - Additional data extraction capabilities
-- **Documentation** - Help others understand and use the platform
-
-### 📝 How to Contribute
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request with a clear description
-
-## 🤖 AI-Powered Project Management
-
-We're using **GitHub MCP (Model Context Protocol)** for AI-driven project management! This allows contributors to interact with GitHub issues, pull requests, and more through natural language prompts in Cursor.
-
-### 🚀 Quick Setup Guide
-
-**What is MCP?** MCP is a plugin system that lets Cursor connect to external tools and APIs, including GitHub. By adding a GitHub MCP server, you enable AI-driven interaction with GitHub features.
-
-#### Step 1: Create GitHub Personal Access Token
-1. Go to GitHub Settings → Developer Settings → Personal Access Tokens
-2. Click "Generate new token" (choose fine-grained token if possible)
-3. Set permissions: `repo`, `issues` (minimum required)
-4. Copy the token for later use
-
-#### Step 2: Install GitHub MCP Server
-
-**Option A: Using Smithery CLI (Recommended)**
 ```bash
-npx -y @smithery/cli@latest install @smithery-ai/github \
-  --client cursor \
-  --config '{"githubPersonalAccessToken":"your_token_here"}'
+npm install && npm run chrome          # deps + puppeteer's Chrome
+cp config.example.js config.local.js   # then fill in your groups (next step)
+cp data/protect.example.json data/protect.json
 ```
 
-**Option B: Manual Configuration**
-Create/edit `~/.cursor/mcp.json`:
-```json
-{
-  "mcp_servers": {
-    "github": {
-      "command": "npx @smithery/github-mcp --token your_github_token"
-    }
-  }
-}
+1. `npm run groups` → scan the QR once → copy your group IDs into `config.local.js` (mark the
+   umbrella with `umbrella: true` — see `docs/ADD_CHAT_IDS.md`).
+2. `npm run resolve` → build identities + name ledger. *(Optional: `node tools/harvest-names.js`
+   to boost names from a well-connected account — read-only, auto-unlinks.)*
+3. `npm run pull` → recent messages + reactions. `node tools/snapshot-members.js` → live rosters.
+4. `node pipeline/score-members.js` → scores + tiers. `node pipeline/find-prune-candidates.js` →
+   a safe, vetted shortlist (refuses if data is stale/unresolved).
+5. Review, then act with sign-off: `node tools/remove-member.js <groupId> <phone>` (states scope,
+   refuses protected, asks first, verifies, logs). Welcome someone with
+   `node tools/send-message.js <groupId> "..."`, introduce two people with
+   `node tools/create-group.js "..." <phone> <phone>`, or record what you learned with
+   `node tools/annotate.js <phone> "..."`.
+
+Or just open the repo in Claude Code and say what you want — it runs these for you. First run
+with no `config.local.js`, it offers `/setup`.
+
+## Layout
+
+```
+CLAUDE.md             ← the front door: Claude loads this and becomes the gardener
+AGENT.md              ← the operating manual: how it should think & act (read this)
+.claude/commands/setup.md ← the first-run interview (/setup)
+config.example.js     ← all the knobs + where your group IDs / weights / thresholds go
+persona.template.json ← the voice (sliders, rules) + how the personality EVOLVES
+lib/                  ← config loader, the ask-first approval gate, and store.js —
+                        the SINGLE SOURCE OF TRUTH for all local data (id resolution,
+                        name ledger, messages/reactions, scores, protect, dossiers)
+tools/                ← single-purpose hands: enumerate / resolve / harvest / pull /
+                        snapshot / pending / read-chat / send / create-group / annotate /
+                        approve-request / remove   (tools/README.md)
+pipeline/             ← read-only scoring: score-members → find-prune-candidates
+docs/                 ← ADD_CHAT_IDS · IDENTITY · CONNECTING · REMOVAL · RISKS
+memory/SCHEMA.md      ← the agent's memory format (structure only; your memories stay local)
+data/                 ← messages, reactions, identities, scores, dossiers. Local, gitignored.
+ROADMAP.md            ← what's built vs. coming
 ```
 
-#### Step 3: Add to Cursor
-1. Open Cursor Settings (gear icon)
-2. Navigate to MCP section
-3. Click "+ Add new global MCP server"
-4. Paste the command from Step 2
+Everything funnels through `lib/store.js` — one correct copy of phone/`@lid` normalization,
+dedup, identity resolution, the grow-only name ledger, the protect layer, and the dossiers — so
+scores stay consistent, reactions are never double-counted, and names are never lost.
 
-#### Step 4: Use GitHub MCP
-Open Cursor's Agent or Chat tab and try prompts like:
-- "Create a new GitHub issue titled 'Bug: Search not working' with description 'Steps to reproduce...'"
-- "List all open issues in the aihacks repository"
-- "Update issue #123 with a comment about the fix"
-
-### 💡 Tips
-- Use fine-grained tokens with minimal permissions for security
-- Check MCP logs in Cursor (Output panel → MCP Logs) if you encounter issues
-- Restart Cursor after updating MCP settings
-- Refer to [Smithery.ai](https://smithery.ai) for advanced workflows
-
-## 🔒 Privacy & Ethics
-
-This project is designed for community benefit with privacy in mind:
-- Only processes messages from groups where you're a member
-- Focuses on extracting valuable, educational content
-- Respects WhatsApp's terms of service
-- Filters out personal/private conversations
-
-## 📈 Current Status
-
-**✅ Working:**
-- WhatsApp message extraction and monitoring
-- AI-powered content processing and curation
-- Vector search with semantic similarity
-- Modern web interface with authentication
-
-**🚧 In Development:**
-- Enhanced search filters and sorting
-- Mobile app optimization
-- Real-time content updates
-- Community contribution features
-
-**🔮 Planned:**
-- Multi-group support
-- Advanced analytics and insights
-- Integration with other communication platforms
-- AI-powered content recommendations
-
-## 📊 Project Stats
-
-- **Frontend**: React 19 + TanStack Start + Supabase
-- **Backend**: Python + OpenAI + Anthropic + Supabase
-- **Data Collection**: Node.js + whatsapp-web.js
-- **Deployment**: Vercel + Supabase Cloud
-- **License**: ISC
-
-## 🆘 Support
-
-- **Issues**: [GitHub Issues](https://github.com/ltejedor/aihacks/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/ltejedor/aihacks/discussions)
-- **Live Demo**: [https://aihacks.vercel.app/](https://aihacks.vercel.app/)
-
----
-
-**Built with ❤️ for the AI community** - helping builders find the resources they need, when they need them.
+See `AGENT.md` for the philosophy and `ROADMAP.md` for what's next. Everything
+community-specific is yours; this stays generic.
